@@ -11,6 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::namespace('Web')->as('web.')->group(function () {
+    Route::get('/', 'WebController@home')->name('home');
+    Route::get('blog', 'WebController@blog')->name('blog');
+    Route::get('contact', 'WebController@contact')->name('contact');
+    Route::get('newsletter', 'WebController@newsletter')->name('newsletter');
 });
