@@ -1,4 +1,4 @@
-<div class="masthead clearfix">
+<div class="clearfix">
     <div class="inner">
         <h3 class="masthead-brand">
             <a href="{{ route('web.home') }}">

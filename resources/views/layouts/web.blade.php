@@ -10,16 +10,14 @@
 </head>
 <body>
 
-<div class="site-wrapper">
-    <div class="site-wrapper-inner">
-        <div class="cover-container">
-            @include('partials.header')
-            <div class="inner cover" id="content">
-                @yield('content')
-            </div>
-            @include('partials.footer')
+<div class="container-fluid">
+    @include('partials.header')
+    <div class="row">
+        <div class="col-sm-8 offset-sm-2" id="content">
+            @yield('content')
         </div>
     </div>
+    @include('partials.footer')
 </div>
 @include('partials.scripts')
 </body>
