@@ -8,7 +8,7 @@
                 UI/UX.">
     <title>Facundo Goñi - Web and mobile developer</title>
 </head>
-<body class="antialiased font-sans">
+<body class="antialiased font-sans  bg-blue-darkest ">
 <link rel="stylesheet" href="{{ mix('/css/main.css') }}">
 @yield('content')
 </body>
