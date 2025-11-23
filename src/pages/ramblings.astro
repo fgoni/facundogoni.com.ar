@@ -8,13 +8,13 @@ const sortedPosts = blogPosts.sort((a, b) =>
 );
 ---
 
-<Layout title="Thoughts - Facundo Goñi">
-  <h1>Thoughts</h1>
+<Layout title="Ramblings - Facundo Goñi">
+  <h1>Ramblings</h1>
 
   <div class="posts">
     {sortedPosts.map((post) => (
       <article class="post">
-        <a href={`/thoughts/${post.slug}`}>
+        <a href={`/ramblings/${post.slug}`}>
           <h2>{post.data.title}</h2>
           <time>{post.data.date}</time>
           <p>{post.data.description}</p>
