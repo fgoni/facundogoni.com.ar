@@ -1,0 +1,70 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+
+const blogPosts = await getCollection('blog');
+const sortedPosts = blogPosts.sort((a, b) =>
+  new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+---
+
+<Layout title="Thoughts - Facundo Goñi">
+  <h1>Thoughts</h1>
+
+  <div class="posts">
+    {sortedPosts.map((post) => (
+      <article class="post">
+        <a href={`/thoughts/${post.slug}`}>
+          <h2>{post.data.title}</h2>
+          <time>{post.data.date}</time>
+          <p>{post.data.description}</p>
+        </a>
+      </article>
+    ))}
+  </div>
+</Layout>
+
+<style>
+  .posts {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .post {
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 2rem;
+  }
+
+  .post:last-child {
+    border-bottom: none;
+  }
+
+  .post a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .post a:hover h2 {
+    opacity: 0.6;
+  }
+
+  .post h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    transition: opacity 0.2s;
+  }
+
+  .post time {
+    display: block;
+    color: #666;
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .post p {
+    color: #666;
+    margin: 0;
+  }
+</style>
