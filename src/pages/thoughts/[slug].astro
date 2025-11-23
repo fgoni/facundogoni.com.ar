@@ -1,0 +1,53 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const blogPosts = await getCollection('blog');
+  return blogPosts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+
+<Layout title={post.data.title}>
+  <article>
+    <header>
+      <h1>{post.data.title}</h1>
+      <time>{post.data.date}</time>
+    </header>
+    <Content />
+  </article>
+
+  <a href="/thoughts" class="back-link">← Back to thoughts</a>
+</Layout>
+
+<style>
+  article header {
+    margin-bottom: 2rem;
+  }
+
+  article header h1 {
+    margin-bottom: 0.5rem;
+  }
+
+  time {
+    color: #666;
+    font-size: 0.875rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    margin-top: 3rem;
+    text-decoration: none;
+    color: #1a1a1a;
+  }
+
+  .back-link:hover {
+    opacity: 0.6;
+  }
+</style>

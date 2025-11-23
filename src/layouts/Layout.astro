@@ -1,0 +1,97 @@
+---
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="I'm a web and mobile developer focused on rapid application development, fast prototyping and quality UI/UX.">
+  <title>{title}</title>
+</head>
+<body>
+  <nav>
+    <a href="/">about</a>
+    <a href="/thoughts">thoughts</a>
+    <a href="/projects">projects</a>
+  </nav>
+
+  <main>
+    <slot />
+  </main>
+
+  <style is:global>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      line-height: 1.6;
+      color: #1a1a1a;
+      background-color: #f5f5f5;
+      padding: 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    nav {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 4rem;
+      font-size: 1.125rem;
+    }
+
+    nav a {
+      color: #1a1a1a;
+      text-decoration: none;
+      font-style: italic;
+      transition: opacity 0.2s;
+    }
+
+    nav a:hover {
+      opacity: 0.6;
+    }
+
+    main {
+      max-width: 650px;
+    }
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      line-height: 1.2;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin: 2rem 0 1rem;
+    }
+
+    p {
+      font-size: 1.125rem;
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+
+    a {
+      color: #1a1a1a;
+      text-decoration: underline;
+      transition: opacity 0.2s;
+    }
+
+    a:hover {
+      opacity: 0.6;
+    }
+  </style>
+</body>
+</html>
