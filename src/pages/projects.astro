@@ -1,11 +1,108 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+
+const projects = await getCollection('projects');
 ---
 
 <Layout title="Projects - Facundo Goñi">
   <h1>Projects</h1>
 
-  <p>
-    Coming soon...
-  </p>
+  <div class="projects">
+    {projects.map((project) => (
+      <article class="project">
+        <a href={`/projects/${project.slug}`}>
+          <h2>{project.data.title}</h2>
+          <div class="tags">
+            {project.data.tags.map((tag) => (
+              <span class="tag">{tag}</span>
+            ))}
+          </div>
+          <p>{project.data.description}</p>
+          {project.data.status && (
+            <span class={`status status-${project.data.status.toLowerCase()}`}>
+              {project.data.status}
+            </span>
+          )}
+        </a>
+      </article>
+    ))}
+  </div>
 </Layout>
+
+<style>
+  .projects {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .project {
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 2rem;
+  }
+
+  .project:last-child {
+    border-bottom: none;
+  }
+
+  .project a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .project a:hover h2 {
+    opacity: 0.6;
+  }
+
+  .project h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    transition: opacity 0.2s;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .tag {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    color: #666;
+  }
+
+  .project p {
+    color: #666;
+    margin: 0;
+  }
+
+  .status {
+    display: inline-block;
+    margin-top: 0.75rem;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+
+  .status-active {
+    background-color: #d4edda;
+    color: #155724;
+  }
+
+  .status-completed {
+    background-color: #cce5ff;
+    color: #004085;
+  }
+
+  .status-archived {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+</style>

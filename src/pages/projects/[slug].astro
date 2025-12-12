@@ -1,0 +1,139 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await project.render();
+---
+
+<Layout title={`${project.data.title} - Facundo Goñi`}>
+  <article>
+    <header>
+      <h1>{project.data.title}</h1>
+      <div class="tags">
+        {project.data.tags.map((tag) => (
+          <span class="tag">{tag}</span>
+        ))}
+      </div>
+      {project.data.status && (
+        <span class={`status status-${project.data.status.toLowerCase()}`}>
+          {project.data.status}
+        </span>
+      )}
+    </header>
+    
+    <Content />
+
+    <div class="links">
+      {project.data.appStoreUrl && (
+        <a href={project.data.appStoreUrl} target="_blank" rel="noopener noreferrer" class="link-button">
+          View on App Store →
+        </a>
+      )}
+      {project.data.demoUrl && (
+        <a href={project.data.demoUrl} target="_blank" rel="noopener noreferrer" class="link-button">
+          View Live Site →
+        </a>
+      )}
+      {project.data.githubUrl && (
+        <a href={project.data.githubUrl} target="_blank" rel="noopener noreferrer" class="link-button">
+          View on GitHub →
+        </a>
+      )}
+    </div>
+  </article>
+
+  <a href="/projects" class="back-link">← Back to projects</a>
+</Layout>
+
+<style>
+  article header {
+    margin-bottom: 2rem;
+  }
+
+  article header h1 {
+    margin-bottom: 1rem;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .tag {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    color: #666;
+  }
+
+  .status {
+    display: inline-block;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+
+  .status-active {
+    background-color: #d4edda;
+    color: #155724;
+  }
+
+  .status-completed {
+    background-color: #cce5ff;
+    color: #004085;
+  }
+
+  .status-archived {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e0e0e0;
+  }
+
+  .link-button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: #1a1a1a;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    transition: background-color 0.2s;
+  }
+
+  .link-button:hover {
+    background-color: #333;
+    opacity: 1;
+  }
+
+  .back-link {
+    display: inline-block;
+    margin-top: 3rem;
+    text-decoration: none;
+    color: #1a1a1a;
+  }
+
+  .back-link:hover {
+    opacity: 0.6;
+  }
+</style>

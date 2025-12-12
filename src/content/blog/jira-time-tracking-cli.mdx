@@ -1,0 +1,96 @@
+---
+title: "Jira Time Tracking on the CLI"
+date: "2025-12-10"
+description: "A simple Python script to quickly check how much time you've logged in Jira today, right from your terminal."
+---
+
+A simple Python script to quickly check how much time you've logged in Jira today, right from your terminal.
+
+## The Problem
+
+Keeping track of time logged in Jira can be tedious. You have to open the web interface, navigate to your worklogs, and manually calculate how much time you've spent. I wanted a quick way to see this information directly from the command line.
+
+## The Solution
+
+I built a Python script that queries the Jira API to fetch all worklogs logged today by the current user. It provides a clean breakdown showing:
+
+- Total time logged today
+- A detailed breakdown by issue
+- Time spent per issue
+- When each worklog was started and created
+
+You can find the full script on [GitHub Gist](https://gist.github.com/fgoni/7c9a299c01aa90bdf59da3995c2b8375).
+
+## Features
+
+- **Flexible Configuration**: Supports multiple configuration methods:
+  - Environment variables (`JIRA_API_USERNAME`, `JIRA_API_TOKEN`, `JIRA_API_BASE_URL`)
+  - `.env` file
+  - YAML config file (compatible with jiratui config format)
+- **Smart Defaults**: Automatically looks for config in common locations
+- **Clean Output**: Formatted, readable output showing your time breakdown
+- **Today Only**: Filters worklogs to show only today's entries
+
+## Usage
+
+The script can be run directly:
+
+```bash
+python3 get_time.py
+```
+
+Or with custom config paths:
+
+```bash
+python3 get_time.py --config ~/.config/jiratui/config.yaml
+python3 get_time.py --env-file ~/.env
+```
+
+## Recommended: Add an Alias
+
+To make this even more convenient, I recommend adding an alias to your shell configuration (`~/.zshrc` or `~/.bashrc`):
+
+```bash
+alias jt="python3 /path/to/get_time.py"
+```
+
+Then you can simply run:
+
+```bash
+jt
+```
+
+This makes checking your logged time as quick as typing two letters!
+
+## Example Output
+
+```
+Total Time Logged: 6h 30m
+
+Breakdown by Issue:
+
+1. PROJ-123 - "Implement user authentication"
+ - Time: 2h 30m
+ - Started: 09:00 AM
+ - Logged at: 09:15 AM
+
+2. PROJ-456 - "Fix bug in payment processing"
+ - Time: 4h 00m
+ - Started: 01:00 PM
+ - Logged at: 01:05 PM
+```
+
+## Technical Details
+
+The script uses the Jira REST API v3 to:
+1. Search for issues with worklogs logged today by the current user
+2. Fetch detailed worklog information for each issue
+3. Calculate and display the total time spent
+
+It uses `curl` under the hood for API calls, making it lightweight and avoiding additional dependencies beyond Python's standard library and a few common packages (`pyyaml`, `python-dotenv`).
+
+## Why This Matters
+
+Small productivity tools like this can save significant time over the course of a day. Instead of context-switching to a web browser and navigating through Jira's interface, you get instant feedback right where you're already working—in your terminal.
+
+Building this also reinforced the value of creating focused, single-purpose tools that solve specific problems well. Sometimes the best solution is a simple script that does one thing perfectly.

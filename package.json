@@ -17,7 +17,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@astrojs/mdx": "^4.3.12",
-    "astro": "^5.16.0"
+    "@astrojs/mdx": "^4.3.13",
+    "astro": "^5.16.5"
   }
 }
