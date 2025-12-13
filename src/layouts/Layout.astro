@@ -5,6 +5,7 @@ interface Props {
 
 const { title } = Astro.props;
 import { ClientRouter } from 'astro:transitions';
+import '../styles/prism-okaidia.css';
 ---
 
 <!DOCTYPE html>
@@ -15,7 +16,6 @@ import { ClientRouter } from 'astro:transitions';
   <meta name="description" content="I'm a web and mobile developer focused on rapid application development, fast prototyping and quality UI/UX.">
   <title>{title}</title>
   <ClientRouter />
-  <link rel="stylesheet" href="/src/styles/prism-okaidia.css" />
 </head>
 <body>
   <nav>
