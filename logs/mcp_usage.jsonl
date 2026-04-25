@@ -1,1 +1,0 @@
-{"timestamp": "2026-04-25T12:58:19.645256+00:00", "tool_name": "ha_search_entities", "parameters": {"query": "tcl", "domain_filter": null, "area_filter": null, "limit": 20, "group_by_domain": false}, "execution_time_ms": 159.2388153076172, "success": true, "error_message": null, "response_size_bytes": 3128, "user_context": null}
