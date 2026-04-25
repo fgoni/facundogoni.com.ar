@@ -6,4 +6,8 @@ export default defineConfig({
   markdown: {
     syntaxHighlight: 'prism',
   },
+  redirects: {
+    '/ramblings': '/notes',
+    '/ramblings/[slug]': '/notes/[slug]',
+  },
 });

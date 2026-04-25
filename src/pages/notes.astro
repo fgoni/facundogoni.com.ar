@@ -22,10 +22,10 @@ const sortedPosts = blogPosts
   .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 ---
 
-<Layout title="Ramblings — Facundo Goñi">
-  <div class="ramblings">
+<Layout title="Notes — Facundo Goñi">
+  <div class="notes">
     <aside class="intro">
-      <div class="eyebrow">Ramblings</div>
+      <div class="eyebrow">Notes</div>
       <h1 class="page-title">
         Notes,<br/><em class="em">mostly.</em>
       </h1>
@@ -36,7 +36,7 @@ const sortedPosts = blogPosts
 
     <div class="list">
       {sortedPosts.map((post) => (
-        <a href={`/ramblings/${post.slug}`} class="post">
+        <a href={`/notes/${post.slug}`} class="post">
           <div class="post-meta">
             <div>{formatDate(post.data.date)}</div>
             <div class="post-read">{reads[post.slug] ?? ''}</div>
@@ -53,7 +53,7 @@ const sortedPosts = blogPosts
 </Layout>
 
 <style>
-  .ramblings {
+  .notes {
     display: grid;
     grid-template-columns: 1fr 2.2fr;
     gap: 96px;
@@ -138,7 +138,7 @@ const sortedPosts = blogPosts
   }
 
   @media (max-width: 880px) {
-    .ramblings {
+    .notes {
       grid-template-columns: 1fr;
       gap: 32px;
     }

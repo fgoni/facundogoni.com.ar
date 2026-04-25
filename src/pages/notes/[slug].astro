@@ -21,13 +21,13 @@ const formattedDate = new Date(post.data.date).toLocaleDateString('en-US', {
 <Layout title={`${post.data.title} — Facundo Goñi`}>
   <article class="prose">
     <header class="post-header">
-      <div class="eyebrow">Ramblings · {formattedDate}</div>
+      <div class="eyebrow">Notes · {formattedDate}</div>
       <h1>{post.data.title}</h1>
     </header>
     <Content />
   </article>
 
-  <a href="/ramblings" class="back-link">← Back to ramblings</a>
+  <a href="/notes" class="back-link">← Back to notes</a>
 </Layout>
 
 <style>
