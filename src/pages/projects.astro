@@ -194,13 +194,20 @@ const projects = order
     .page-title { font-size: 48px; margin-bottom: 32px; }
 
     .project {
-      grid-template-columns: 32px 1fr;
-      gap: 12px 16px;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      padding: 24px 0;
     }
-    .project-num { grid-row: 1; }
-    .project-name { grid-column: 2; font-size: 28px; }
-    .project-desc { grid-column: 2; }
-    .project-meta { grid-column: 2; }
+
+    .project-num {
+      font-size: 11px;
+      opacity: 0.7;
+    }
+
+    .project-name { font-size: 28px; }
+
     .project-arrow { display: none; }
+
+    .projects:hover .project { opacity: 1; }
   }
 </style>
