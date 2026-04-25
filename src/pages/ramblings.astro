@@ -3,68 +3,151 @@ import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 
 const blogPosts = await getCollection('blog');
-const sortedPosts = blogPosts.sort((a, b) =>
-  new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
-);
+
+const deks: Record<string, string> = {
+  'stop-working-on-the-dumb-zone': 'Track context usage in Claude Code to stay on-plan — a small status-line tweak that pays off all day.',
+  'jira-time-tracking-cli': "A small Python script to see exactly how much you've logged today, without ever opening the web UI.",
+};
+
+const reads: Record<string, string> = {
+  'stop-working-on-the-dumb-zone': '3 min',
+  'jira-time-tracking-cli': '4 min',
+};
+
+const formatDate = (d: string) =>
+  new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+const sortedPosts = blogPosts
+  .slice()
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 ---
 
-<Layout title="Ramblings - Facundo Goñi">
-  <h1>Ramblings</h1>
+<Layout title="Ramblings — Facundo Goñi">
+  <div class="ramblings">
+    <aside class="intro">
+      <div class="eyebrow">Ramblings</div>
+      <h1 class="page-title">
+        Notes,<br/><em class="em">mostly.</em>
+      </h1>
+      <p class="dek">
+        Short writing on tools, workflow, and the small details that compound when you ship for a living.
+      </p>
+    </aside>
 
-  <div class="posts">
-    {sortedPosts.map((post) => (
-      <article class="post">
-        <a href={`/ramblings/${post.slug}`}>
-          <h2>{post.data.title}</h2>
-          <time>{post.data.date}</time>
-          <p>{post.data.description}</p>
+    <div class="list">
+      {sortedPosts.map((post) => (
+        <a href={`/ramblings/${post.slug}`} class="post">
+          <div class="post-meta">
+            <div>{formatDate(post.data.date)}</div>
+            <div class="post-read">{reads[post.slug] ?? ''}</div>
+          </div>
+          <div class="post-body">
+            <div class="post-title">{post.data.title}</div>
+            <div class="post-dek">{deks[post.slug] ?? post.data.description}</div>
+          </div>
         </a>
-      </article>
-    ))}
+      ))}
+      <div class="list-end" aria-hidden="true"></div>
+    </div>
   </div>
 </Layout>
 
 <style>
-  .posts {
+  .ramblings {
+    display: grid;
+    grid-template-columns: 1fr 2.2fr;
+    gap: 96px;
+  }
+
+  .intro {
+    position: sticky;
+    top: 40px;
+    align-self: start;
+  }
+
+  .page-title {
+    font-family: var(--serif);
+    font-size: 64px;
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    font-weight: 400;
+    margin: 24px 0 28px;
+  }
+
+  .dek {
+    font-family: var(--serif);
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--muted);
+    margin: 0;
+    max-width: 320px;
+  }
+
+  .list {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
   }
 
   .post {
-    border-bottom: 1px solid #e0e0e0;
-    padding-bottom: 2rem;
-  }
-
-  .post:last-child {
-    border-bottom: none;
-  }
-
-  .post a {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 32px;
+    padding: 32px 0;
+    border-top: 1px solid var(--rule);
     text-decoration: none;
     color: inherit;
-    display: block;
+    transition: opacity 200ms;
   }
 
-  .post a:hover h2 {
-    opacity: 0.6;
+  .post:hover {
+    opacity: 0.7;
   }
 
-  .post h2 {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-    transition: opacity 0.2s;
+  .list-end {
+    border-top: 1px solid var(--rule);
   }
 
-  .post time {
-    display: block;
-    color: #666;
-    font-size: 0.875rem;
-    margin-bottom: 0.5rem;
+  .post-meta {
+    font-family: var(--sans);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    padding-top: 8px;
   }
 
-  .post p {
-    color: #666;
-    margin: 0;
+  .post-read {
+    margin-top: 4px;
+    opacity: 0.7;
+  }
+
+  .post-title {
+    font-family: var(--serif);
+    font-size: 28px;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    font-weight: 400;
+  }
+
+  .post-dek {
+    font-family: var(--serif);
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 10px;
+  }
+
+  @media (max-width: 880px) {
+    .ramblings {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    .intro { position: static; }
+    .page-title { font-size: 44px; }
+    .post {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+    .post-title { font-size: 22px; }
   }
 </style>

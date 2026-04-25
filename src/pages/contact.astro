@@ -1,0 +1,127 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const elsewhere = [
+  { label: 'GitHub', value: 'github.com/fgoni', href: 'https://github.com/fgoni' },
+  { label: 'LinkedIn', value: '/in/facundogoni', href: 'https://www.linkedin.com/in/facundogoni/' },
+  { label: 'Email', value: 'hi@facundogoni.com.ar', href: 'mailto:hi@facundogoni.com.ar' },
+];
+---
+
+<Layout title="Contact — Facundo Goñi">
+  <div class="contact">
+    <div class="eyebrow">Get in touch</div>
+    <h1 class="page-title">
+      Let's <em class="em">talk.</em>
+    </h1>
+
+    <div class="grid">
+      <div class="left">
+        <p class="lede">
+          If you're working on a product and need help bringing it to life, send me a note.
+        </p>
+        <p class="sub">
+          A few sentences on what you're building, where it stands, and what you need is plenty. I'll reply within a day.
+        </p>
+        <a href="mailto:hi@facundogoni.com.ar" class="email">hi@facundogoni.com.ar</a>
+      </div>
+
+      <div class="right">
+        <div class="eyebrow">Elsewhere</div>
+        <div class="links">
+          {elsewhere.map((item) => (
+            <a href={item.href} class="link" target="_blank" rel="noopener noreferrer">
+              <span>{item.label}</span>
+              <span class="link-value">{item.value}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .contact {
+    max-width: 880px;
+  }
+
+  .page-title {
+    font-family: var(--serif);
+    font-size: 108px;
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+    font-weight: 400;
+    margin: 24px 0 0;
+  }
+
+  .grid {
+    margin-top: 56px;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .lede {
+    font-family: var(--serif);
+    font-size: 21px;
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  .sub {
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--muted);
+    margin: 24px 0 0;
+  }
+
+  .email {
+    display: inline-block;
+    margin-top: 40px;
+    font-family: var(--serif);
+    font-size: 24px;
+    font-style: italic;
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 6px;
+  }
+
+  .email:hover { opacity: 0.7; }
+
+  .right { padding-top: 16px; }
+
+  .links {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .link {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--serif);
+    font-size: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--accent-soft);
+    text-decoration: none;
+    color: inherit;
+    transition: opacity 200ms;
+  }
+
+  .link:hover { opacity: 0.7; }
+
+  .link-value { color: var(--muted); }
+
+  @media (max-width: 880px) {
+    .page-title { font-size: 64px; }
+    .grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+    .right { padding-top: 0; }
+  }
+</style>

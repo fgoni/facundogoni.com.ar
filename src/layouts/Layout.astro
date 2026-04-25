@@ -6,6 +6,19 @@ interface Props {
 const { title } = Astro.props;
 import { ClientRouter } from 'astro:transitions';
 import '../styles/prism-okaidia.css';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const navItems = [
+  { key: 'about', label: 'about', href: '/' },
+  { key: 'work', label: 'work', href: '/projects' },
+  { key: 'ramblings', label: 'ramblings', href: '/ramblings' },
+  { key: 'contact', label: 'contact', href: '/contact' },
+];
+
+const isActive = (href: string) => {
+  if (href === '/') return path === '/';
+  return path === href || path.startsWith(href + '/');
+};
 ---
 
 <!DOCTYPE html>
@@ -13,8 +26,11 @@ import '../styles/prism-okaidia.css';
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="I'm a web and mobile developer focused on rapid application development, fast prototyping and quality UI/UX.">
+  <meta name="description" content="Web & mobile developer focused on shipping high-quality products fast — from idea to production.">
   <title>{title}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-B86Y6RR0CK"></script>
   <script>
@@ -26,87 +42,164 @@ import '../styles/prism-okaidia.css';
   <ClientRouter />
 </head>
 <body>
-  <nav>
-    <a href="/">about</a>
-    <a href="/ramblings">ramblings</a>
-    <a href="/projects">projects</a>
-  </nav>
+  <div class="page">
+    <header class="masthead">
+      <div class="masthead-id">
+        <span class="masthead-name">Facundo Goñi</span>
+        <span class="masthead-meta">Web &amp; mobile developer · Buenos Aires</span>
+      </div>
+      <nav class="masthead-nav">
+        {navItems.map((item) => (
+          <a href={item.href} class={`nav-link ${isActive(item.href) ? 'active' : ''}`}>{item.label}</a>
+        ))}
+      </nav>
+    </header>
 
-  <main>
-    <slot />
-  </main>
+    <main>
+      <slot />
+    </main>
+
+    <footer class="colophon">
+      <div>© Facundo Goñi</div>
+      <div>Buenos Aires · UTC−3</div>
+    </footer>
+  </div>
 
   <style is:global>
-    * {
+    :root {
+      --bg: #F5F1E8;
+      --ink: #1A1814;
+      --muted: #6B6357;
+      --rule: #1A1814;
+      --accent: #1A1814;
+      --accent-soft: rgba(26, 24, 20, 0.08);
+      --serif: "Fraunces", "Source Serif 4", Georgia, serif;
+      --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
+      background: var(--bg);
+      color: var(--ink);
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      font-family: var(--serif);
       line-height: 1.6;
-      color: #1a1a1a;
-      background-color: #f5f5f5;
-      padding: 2rem;
-      max-width: 800px;
+      min-height: 100vh;
+    }
+
+    .page {
+      width: 100%;
+      min-height: 100vh;
+      max-width: 1280px;
       margin: 0 auto;
+      padding: 56px 96px;
     }
 
-    nav {
+    .masthead {
       display: flex;
-      gap: 2rem;
-      margin-bottom: 4rem;
-      font-size: 1.125rem;
-      max-width: 650px;
-      margin-left: auto;
-      margin-right: auto;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 32px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 104px;
     }
 
-    nav a {
-      color: #1a1a1a;
-      text-decoration: none;
+    .masthead-id {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .masthead-name {
+      font-family: var(--serif);
+      font-size: 22px;
       font-style: italic;
-      transition: opacity 0.2s;
+      letter-spacing: -0.01em;
     }
 
-    nav a:hover {
-      opacity: 0.6;
+    .masthead-meta {
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .masthead-nav {
+      display: flex;
+      gap: 28px;
+    }
+
+    .nav-link {
+      font-family: var(--sans);
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+      padding-bottom: 4px;
+      border-bottom: 1px solid transparent;
+      opacity: 0.65;
+      transition: opacity 160ms;
+    }
+
+    .nav-link:hover { opacity: 1; }
+    .nav-link.active {
+      opacity: 1;
+      border-bottom-color: var(--ink);
     }
 
     main {
-      max-width: 650px;
-      margin: 0 auto;
       width: 100%;
     }
 
-    h1 {
-      font-size: 2rem;
-      font-weight: 700;
-      margin-bottom: 2rem;
-      line-height: 1.2;
+    .colophon {
+      margin-top: 104px;
+      padding-top: 24px;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
     }
 
-    h2 {
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin: 2rem 0 1rem;
+    .eyebrow {
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 14px;
     }
 
-    p {
-      font-size: 1.125rem;
-      margin-bottom: 1.5rem;
-      color: #333;
+    .eyebrow::before {
+      content: "";
+      display: inline-block;
+      width: 24px;
+      height: 1px;
+      background: var(--muted);
+    }
+
+    .em {
+      font-style: italic;
+      color: var(--accent);
     }
 
     a {
-      color: #1a1a1a;
-      text-decoration: underline;
-      transition: opacity 0.2s;
-    }
-
-    a:hover {
-      opacity: 0.6;
+      color: inherit;
     }
 
     img {
@@ -115,14 +208,108 @@ import '../styles/prism-okaidia.css';
       display: block;
     }
 
-    figure {
-      margin: 2rem 0;
-    }
-
+    figure { margin: 2rem 0; }
     figcaption {
       margin-top: 0.5rem;
-      color: #666;
+      color: var(--muted);
       font-size: 0.95rem;
+      font-family: var(--sans);
+    }
+
+    /* Long-form content (project + rambling detail pages) */
+    .prose {
+      max-width: 720px;
+      font-family: var(--serif);
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--ink);
+    }
+
+    .prose h1 {
+      font-family: var(--serif);
+      font-size: 56px;
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      font-weight: 400;
+      margin: 0 0 32px;
+    }
+
+    .prose h2 {
+      font-family: var(--serif);
+      font-size: 28px;
+      line-height: 1.2;
+      letter-spacing: -0.015em;
+      font-weight: 500;
+      margin: 48px 0 16px;
+    }
+
+    .prose h3 {
+      font-family: var(--serif);
+      font-size: 22px;
+      font-weight: 500;
+      margin: 32px 0 12px;
+    }
+
+    .prose p {
+      margin: 0 0 20px;
+      color: var(--ink);
+    }
+
+    .prose ul, .prose ol {
+      margin: 0 0 20px;
+      padding-left: 24px;
+    }
+
+    .prose li {
+      margin-bottom: 8px;
+    }
+
+    .prose a {
+      color: var(--ink);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .prose a:hover { opacity: 0.7; }
+
+    .prose code {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 0.9em;
+      background: var(--accent-soft);
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+
+    .prose pre {
+      background: #1A1814;
+      color: #F5F1E8;
+      padding: 20px 24px;
+      border-radius: 4px;
+      overflow-x: auto;
+      margin: 0 0 20px;
+    }
+
+    .prose pre code {
+      background: transparent;
+      padding: 0;
+      color: inherit;
+    }
+
+    @media (max-width: 880px) {
+      .page { padding: 40px 24px; }
+      .masthead {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        margin-bottom: 64px;
+      }
+      .masthead-nav {
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+      .colophon { margin-top: 64px; }
+      .prose h1 { font-size: 40px; }
+      .prose h2 { font-size: 24px; }
     }
   </style>
 </body>

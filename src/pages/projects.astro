@@ -2,107 +2,205 @@
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 
-const projects = await getCollection('projects');
+const collection = await getCollection('projects');
+
+const order = ['certification-prep-pro', 'json-assistant', 'stations', 'kiosquito'];
+const romans = ['I', 'II', 'III', 'IV', 'V', 'VI'];
+
+const overrides: Record<string, { name: string; meta: string; desc: string; tags: string[]; href: string }> = {
+  'certification-prep-pro': {
+    name: 'Certification Prep Pro',
+    meta: 'iOS · macOS · 2025',
+    desc: 'A focused, distraction-free study companion for AWS certification exams. 1,300+ practice questions, native on iPhone and Mac.',
+    tags: ['Swift', 'iOS', 'macOS'],
+    href: 'https://apps.apple.com/fi/app/certification-prep-pro/id6741158449',
+  },
+  'json-assistant': {
+    name: 'JSON Assistant',
+    meta: 'macOS · 2025',
+    desc: "A fast, privacy-first JSON viewer and formatter. On-device parsing, a tree explorer, and a warm sepia theme that's easy on the eyes.",
+    tags: ['Swift', 'macOS', 'Devtools'],
+    href: 'https://apps.apple.com/fi/app/json-assistant/id6753915615?mt=12',
+  },
+  'stations': {
+    name: 'Stations',
+    meta: 'Web · 2024',
+    desc: "A Reddit aggregator for battlestations and desk setups. Laravel running on Vercel's serverless PHP runtime — part product, part proof of concept.",
+    tags: ['Laravel', 'PHP', 'Vercel'],
+    href: 'https://stations.facundogoni.com.ar/',
+  },
+  'kiosquito': {
+    name: 'Kiosquito Digital',
+    meta: 'Web · 2024',
+    desc: 'A digital platform built around interactive content and engagement — modern web, responsive, and built to keep people clicking through.',
+    tags: ['Web', 'Platform'],
+    href: 'https://kiosquito.digital/',
+  },
+};
+
+const projects = order
+  .map((slug, i) => {
+    const project = collection.find((p) => p.slug === slug);
+    const o = overrides[slug];
+    if (!project || !o) return null;
+    return {
+      slug: project.slug,
+      n: romans[i],
+      ...o,
+    };
+  })
+  .filter((p): p is NonNullable<typeof p> => p !== null);
 ---
 
-<Layout title="Projects - Facundo Goñi">
-  <h1>Projects</h1>
+<Layout title="Work — Facundo Goñi">
+  <div class="eyebrow">Selected work</div>
+  <h1 class="page-title">
+    Things I've<br/><em class="em">shipped.</em>
+  </h1>
 
   <div class="projects">
-    {projects.map((project) => (
-      <article class="project">
-        <a href={`/projects/${project.slug}`}>
-          <h2>{project.data.title}</h2>
-          <div class="tags">
-            {project.data.tags.map((tag) => (
-              <span class="tag">{tag}</span>
-            ))}
+    {projects.map((p) => (
+      <a href={p.href} target="_blank" rel="noopener noreferrer" class="project">
+        <div class="project-num">{p.n}</div>
+        <div class="project-name">{p.name}</div>
+        <div class="project-desc">{p.desc}</div>
+        <div class="project-meta">
+          <div class="project-meta-line">{p.meta}</div>
+          <div class="project-tags">
+            {p.tags.map((t) => <span class="tag">{t}</span>)}
           </div>
-          <p>{project.data.description}</p>
-          {project.data.status && (
-            <span class={`status status-${project.data.status.toLowerCase()}`}>
-              {project.data.status}
-            </span>
-          )}
-        </a>
-      </article>
+        </div>
+        <div class="project-arrow" aria-hidden="true">↗</div>
+      </a>
     ))}
+    <div class="projects-end" aria-hidden="true"></div>
   </div>
 </Layout>
 
 <style>
+  .page-title {
+    font-family: var(--serif);
+    font-size: 72px;
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    font-weight: 400;
+    margin: 24px 0 56px;
+  }
+
   .projects {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
   }
 
   .project {
-    border-bottom: 1px solid #e0e0e0;
-    padding-bottom: 2rem;
-  }
-
-  .project:last-child {
-    border-bottom: none;
-  }
-
-  .project a {
+    display: grid;
+    grid-template-columns: 60px 1.2fr 1.4fr 220px 40px;
+    gap: 28px;
+    padding: 32px 0;
+    border-top: 1px solid var(--rule);
+    align-items: baseline;
     text-decoration: none;
     color: inherit;
-    display: block;
+    transition: opacity 220ms;
   }
 
-  .project a:hover h2 {
-    opacity: 0.6;
+  .projects:hover .project {
+    opacity: 0.35;
   }
 
-  .project h2 {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-    transition: opacity 0.2s;
+  .projects:hover .project:hover {
+    opacity: 1;
   }
 
-  .tags {
+  .projects-end {
+    border-top: 1px solid var(--rule);
+  }
+
+  .project-num {
+    font-family: var(--sans);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+
+  .project-name {
+    font-family: var(--serif);
+    font-size: 40px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    color: var(--ink);
+    transition: color 220ms, font-style 220ms;
+  }
+
+  .project:hover .project-name {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .project-desc {
+    font-family: var(--serif);
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+
+  .project-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .project-meta-line {
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .project-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 0.75rem;
+    gap: 6px;
   }
 
   .tag {
-    font-size: 0.75rem;
-    padding: 0.25rem 0.5rem;
-    background-color: #e0e0e0;
-    border-radius: 4px;
-    color: #666;
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1px solid var(--rule);
+    color: var(--muted);
+    opacity: 0.85;
   }
 
-  .project p {
-    color: #666;
-    margin: 0;
+  .project-arrow {
+    font-family: var(--serif);
+    font-size: 18px;
+    color: var(--muted);
+    opacity: 0.5;
+    text-align: right;
+    transition: color 220ms, opacity 220ms;
   }
 
-  .status {
-    display: inline-block;
-    margin-top: 0.75rem;
-    font-size: 0.75rem;
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-weight: 500;
+  .project:hover .project-arrow {
+    color: var(--accent);
+    opacity: 1;
   }
 
-  .status-active {
-    background-color: #d4edda;
-    color: #155724;
-  }
+  @media (max-width: 880px) {
+    .page-title { font-size: 48px; margin-bottom: 32px; }
 
-  .status-completed {
-    background-color: #cce5ff;
-    color: #004085;
-  }
-
-  .status-archived {
-    background-color: #f8d7da;
-    color: #721c24;
+    .project {
+      grid-template-columns: 32px 1fr;
+      gap: 12px 16px;
+    }
+    .project-num { grid-row: 1; }
+    .project-name { grid-column: 2; font-size: 28px; }
+    .project-desc { grid-column: 2; }
+    .project-meta { grid-column: 2; }
+    .project-arrow { display: none; }
   }
 </style>

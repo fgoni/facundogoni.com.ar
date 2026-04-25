@@ -2,127 +2,175 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Facundo Goñi - Web and mobile developer">
-  <div class="profile">
-    <h1 class="name">Facundo Goñi</h1>
-    <h2 class="role">Web & mobile developer focused on building high-quality products fast, from idea to production.</h2>
-
-    <div class="bio">
-      <p>
-        I work across the full stack, with an emphasis on rapid prototyping, clean architecture, and thoughtful UI/UX.
+<Layout title="Facundo Goñi — Web & mobile developer">
+  <section class="hero">
+    <div class="hero-left">
+      <div class="eyebrow">Independent developer · 20+ years shipping</div>
+      <h1 class="hero-title">
+        Building<br/>
+        <em class="em">high-quality</em><br/>
+        products,<br/>
+        fast.
+      </h1>
+      <p class="availability">
+        <span class="status-dot" aria-hidden="true"></span>
+        Available for freelance &amp; consulting projects
       </p>
-      <p>
+    </div>
+
+    <div class="hero-right">
+      <div class="rule" aria-hidden="true"></div>
+      <p class="lede">
+        I'm a web &amp; mobile developer focused on shipping <em class="em">high-quality</em> products fast — from idea to production.
+      </p>
+      <p class="bio">
+        <em class="em">Over 20 years</em> in the industry — across startups, agencies, and product teams. I work the full stack, with an emphasis on rapid prototyping, clean architecture, and thoughtful UI/UX.
+      </p>
+      <p class="bio">
         I enjoy learning new tools and collaborating with people who care about building things well.
       </p>
+      <p class="bio">
+        If you're working on a product and need help bringing it to life, <a href="/contact">let's talk</a>.
+      </p>
     </div>
+  </section>
 
-    <div class="cta">
-      <p>If you're working on a product and need help bringing it to life, <a href="mailto:hi@facundogoni.com.ar">let's talk</a>.</p>
+  <section class="now">
+    <div class="eyebrow">Currently</div>
+    <div class="now-item">
+      <div class="now-label">Shipping</div>
+      <div class="now-text"><em class="em">JSON Assistant</em> on the Mac App Store — a privacy-first JSON viewer.</div>
     </div>
-
-    <p class="availability">
-      <span class="status-dot"></span> Available for freelance and consulting projects.
-    </p>
-
-    <div class="social-links">
-      <a href="https://github.com/fgoni">GitHub</a>
-      <span class="separator">·</span>
-      <a href="https://www.linkedin.com/in/facundogoni/">LinkedIn</a>
-      <span class="separator">·</span>
-      <a href="mailto:hi@facundogoni.com.ar">Email</a>
+    <div class="now-item">
+      <div class="now-label">Studying</div>
+      <div class="now-text">AWS certifications, alongside <em class="em">Certification Prep Pro</em>.</div>
     </div>
-  </div>
+    <div class="now-item">
+      <div class="now-label">Tinkering</div>
+      <div class="now-text">Native macOS, CLI ergonomics, and context-engineering for LLMs.</div>
+    </div>
+  </section>
 </Layout>
 
 <style>
-  .profile {
-    margin-top: 1rem;
+  .hero {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 96px;
+    align-items: start;
   }
 
-  .name {
-    font-size: 2rem; /* Reduced from 2.5rem */
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    color: #1a1a1a;
-    line-height: 1.2;
-  }
-
-  .role {
-    font-size: 1.25rem;
+  .hero-title {
+    font-family: var(--serif);
+    font-size: 108px;
+    line-height: 0.92;
+    letter-spacing: -0.035em;
     font-weight: 400;
-    color: #555;
-    margin-bottom: 3rem; /* Spacing */
-    line-height: 1.5;
-  }
-
-  .bio {
-    margin-bottom: 3rem; /* Spacing */
-  }
-
-  .bio p {
-    margin-bottom: 1.25rem;
-    font-size: 1.25rem; /* Increased from 1.125rem */
-    line-height: 1.6; /* Slightly adjusted for larger text */
-    color: #333;
-  }
-
-  .cta {
-    margin-bottom: 2rem;
-    font-size: 1.125rem;
-    font-weight: 500;
-  }
-
-  .cta a {
-    color: #1a1a1a;
-    text-decoration: none;
-    border-bottom: 2px solid #1a1a1a;
-    padding-bottom: 1px;
-    transition: opacity 0.2s;
-  }
-
-  .cta a:hover {
-    opacity: 0.6;
+    margin: 32px 0 0 0;
+    text-wrap: pretty;
   }
 
   .availability {
+    margin: 48px 0 0;
     display: flex;
     align-items: center;
-    gap: 0.6rem;
-    font-size: 0.95rem;
-    color: #555;
-    margin-bottom: 3rem; /* Spacing */
+    gap: 12px;
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--muted);
   }
 
   .status-dot {
     width: 8px;
     height: 8px;
-    background-color: #10b981; /* Green */
     border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.18);
     display: inline-block;
-    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
   }
 
-  .social-links {
-    display: flex;
-    gap: 0.75rem;
-    align-items: center;
-    font-size: 1rem;
-    color: #555;
+  .hero-right {
+    padding-top: 90px;
   }
 
-  .social-links a {
-    color: #1a1a1a;
-    text-decoration: none;
-    font-weight: 500;
-    transition: opacity 0.2s;
+  .rule {
+    width: 32px;
+    height: 1px;
+    background: var(--rule);
+    margin-bottom: 28px;
   }
 
-  .social-links a:hover {
-    opacity: 0.6;
+  .lede {
+    font-family: var(--serif);
+    font-size: 21px;
+    line-height: 1.55;
+    margin: 0 0 28px;
+    text-wrap: pretty;
   }
 
-  .separator {
-    color: #d1d5db;
-    font-weight: 300;
+  .bio {
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--muted);
+    margin: 0 0 28px;
+  }
+
+  .bio:last-child { margin-bottom: 0; }
+
+  .bio a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .bio a:hover { opacity: 0.7; }
+
+  .now {
+    margin-top: 104px;
+    padding-top: 32px;
+    border-top: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: 180px 1fr 1fr 1fr;
+    gap: 48px;
+  }
+
+  .now-label {
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .now-text {
+    font-family: var(--serif);
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 880px) {
+    .hero {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    .hero-title {
+      font-size: 72px;
+      margin-top: 24px;
+    }
+
+    .hero-right {
+      padding-top: 0;
+    }
+
+    .availability { margin-top: 32px; }
+
+    .now {
+      margin-top: 64px;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
   }
 </style>
