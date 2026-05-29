@@ -1,0 +1,43 @@
+---
+title: "Building a Mortgage Mission Control from my phone"
+date: "2026-05-29"
+description: "I shipped hipotecario.facundogoni.com.ar from the Claude Code web app on my phone, with no laptop, hosted on Cloudflare Workers."
+---
+
+I built and shipped a whole site from my phone, without ever opening a laptop or a terminal. All I used was the [Claude Code web app](https://claude.ai/code) in a mobile browser and a Cloudflare account. The result is [hipotecario.facundogoni.com.ar](https://hipotecario.facundogoni.com.ar), a little mission control for my Argentine UVA mortgage.
+
+## The problem
+
+If you have a UVA mortgage in Argentina, you know the anxiety. The loan is denominated in *Unidades de Valor Adquisitivo*, units that track inflation, so your installment moves every month. To understand where you actually stand, you juggle a few moving numbers: this month's payment in pesos, how the UVA is tracking against the dollar, and whether to prepay capital now or wait.
+
+I was doing all of this in a spreadsheet, badly. I wanted a single screen I could glance at and immediately know whether I was winning or losing this month, and whether I should do anything about it.
+
+## The constraint that made it interesting
+
+I didn't want to wait until I was back at my desk. The whole thing was built in spare moments, on the couch or waiting in line, from my phone. That turned out to be the most interesting part of the experiment.
+
+The Claude Code web app runs the same agent you'd get in the terminal, but in a sandbox you drive from the browser. On a phone that means I describe the change, it writes the files, runs the build, and shows me the result. I review, I correct, it iterates. I never had to switch to an editor or fight with a tiny on-screen keyboard, because I was describing what I wanted rather than typing it out character by character.
+
+> The phone stops being a limitation once you're describing what you want instead of typing it out.
+
+## The build
+
+The site itself is intentionally simple, in line with the rest of this domain. It computes the current installment, shows the UVA/USD ratio so I can tell whether the unit is cheap or expensive in dollars, and frames the prepay-vs-wait call so I don't re-derive it every month.
+
+I'd describe a panel, something like "show me the UVA/USD ratio with a trend". Claude would scaffold it and run the build, then I'd squint at the preview on my phone and ask for adjustments. I tightened copy, fixed a layout that felt cramped on mobile, and reworked the numbers a few times. The loop was fast enough that the small screen never got in the way.
+
+## Hosting on Cloudflare Workers
+
+For deployment I went with Cloudflare Workers serving the static build with assets. The site is a static bundle, so there's no server to babysit. Workers sits at the edge and serves the assets, and that's the whole story. It runs on the free tier and there's nothing to maintain.
+
+The deploy step also folds into the same agent loop. I never opened the Cloudflare dashboard to push code. I asked for a deploy and it happened. From "I have an idea" to "it's live at a real domain" without ever leaving the chat.
+
+## What I took away
+
+A few things stuck with me:
+
+- **Mobile-first development is real now**, at least for small, well-scoped projects. The bottleneck was never the device. It came down to how clearly I could describe what I wanted.
+- **Static plus Workers is a great default** for this kind of personal tool. There's almost no setup, it costs nothing, and deploys are instant.
+- **Constraints sharpen the work.** Because typing code by hand wasn't an option, I had to think in terms of outcomes and behavior, which kept the scope honest and the site small.
+
+The whole thing is a reminder that the friction in shipping a tiny idea has evaporated. Next time I catch myself maintaining a spreadsheet for something a webpage could do better, I know I can fix it before I even get up off the couch.
