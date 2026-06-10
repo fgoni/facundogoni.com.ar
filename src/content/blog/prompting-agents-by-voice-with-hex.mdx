@@ -1,0 +1,41 @@
+---
+title: "Prompting agents by voice with Hex"
+date: "2026-06-10"
+description: "I stopped typing prompts. Hex, an open-source push-to-talk dictation app, turned voice into my main interface for driving coding agents."
+---
+
+At some point I noticed that most of my "coding" time is no longer spent writing code. It's spent writing *prompts*: describing a bug to Claude Code, briefing a subagent, explaining what a refactor should preserve. And I was doing all of that the slow way, typing paragraph after paragraph like it was 2019.
+
+Now I talk instead. I hold a key, describe what I want, release, and the transcription lands wherever my cursor is. The app that made this stick is [Hex](https://github.com/kitlangton/Hex).
+
+## What Hex is
+
+Hex is a small open-source macOS app by Kit Langton. You hold a hotkey, speak, and when you release it pastes the transcribed text into whatever app has focus. That's the whole product, and that's exactly why it works.
+
+A few things I appreciate about it:
+
+- **Push-to-talk, not always-listening.** Holding the key is a deliberate act, like a walkie-talkie. There's no wake word, no ambient recording.
+- **Local transcription.** Speech-to-text runs on-device (Parakeet by default, with WhisperKit models also supported), so transcription works offline and your audio doesn't get shipped to a third-party API. For someone who dictates production bug details all day, that matters.
+- **App-agnostic.** It types into anything: a terminal running Claude Code, a browser tab, Slack, a commit message. No integration needed.
+
+## Why voice beats the keyboard for prompting
+
+Typing was never the bottleneck for writing code — autocomplete, snippets and muscle memory made it fast. But prompts aren't code. They're prose, and for prose the keyboard is the slow path.
+
+**You speak several times faster than you type.** A detailed three-paragraph brief takes me half a minute out loud. The same brief typed takes a few minutes, and that's enough friction that I used to skip the detail entirely.
+
+**Richer prompts come out naturally.** This is the real win. When typing, I unconsciously compress: short sentences, missing context, "fix the date bug in the sync job". When speaking, I ramble a little, and the ramble is *useful* — I mention the edge case, the constraint, the thing I tried yesterday, which file I suspect. Agents thrive on that context. My spoken prompts are consistently longer, and that extra context usually means a much better first pass.
+
+**Transcription noise mostly doesn't matter.** This is what makes voice and LLMs such a good match. A weird homophone or a missing comma would be unacceptable in code, but the model reads through transcription noise the same way it reads through my typos. The caveat: exact tokens still want a keyboard — file paths, ticket IDs, flags. My rule of thumb is voice for intent and context, keyboard for anything that must be character-perfect. Voice input was a bad interface for computers that needed exact syntax; it's a great interface for ones that understand intent.
+
+**You can prompt while your hands are busy.** Reviewing a diff on one screen while dictating follow-up instructions for another session. Leaning back and thinking out loud instead of hunching over the keyboard. After a full day of driving multiple agents, my hands genuinely notice the difference.
+
+> Typing makes me write the minimum viable prompt. Talking makes me write the prompt the agent actually needed.
+
+## How it fits the agent workflow
+
+In practice, my loop looks like this: an agent finishes a task or asks a question, I read the output, hold the Hex hotkey, and just *say* what I think — "the approach is fine but you ignored the LCC variant of that view, check the lcc folder and apply the same change there, and run the tests before you report back". Release the key, hit enter, move to the next session.
+
+Multiply that by the dozens of prompts a day a multi-agent workflow involves, and the keyboard version of me simply couldn't keep up. Voice turned prompting from a writing task into a conversation, which is what it always wanted to be.
+
+If you spend your day briefing agents and you're still typing every prompt, try a push-to-talk dictation app for a week. Hex is free and open source (Apple Silicon Macs only, and you'll grant the usual microphone and accessibility permissions), and after the two-minute setup, the interface is exactly one hotkey.
