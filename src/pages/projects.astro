@@ -4,10 +4,24 @@ import Layout from '../layouts/Layout.astro';
 
 const collection = await getCollection('projects');
 
-const order = ['certification-prep-pro', 'json-assistant', 'stations', 'kiosquito'];
+const order = ['mic-playback', 'mortgage-mission-control', 'certification-prep-pro', 'json-assistant', 'stations', 'kiosquito'];
 const romans = ['I', 'II', 'III', 'IV', 'V', 'VI'];
 
 const overrides: Record<string, { name: string; meta: string; desc: string; tags: string[]; href: string }> = {
+  'mic-playback': {
+    name: 'Mic Playback Lab',
+    meta: 'Web · 2026',
+    desc: 'A tiny browser-based microphone tester: record a short sample, play it back instantly, and watch the same VU meter react during recording and playback.',
+    tags: ['Web Audio', 'Cloudflare Workers', 'Tool'],
+    href: 'https://mic.facundogoni.com.ar/',
+  },
+  'mortgage-mission-control': {
+    name: 'Mortgage Mission Control',
+    meta: 'Web · 2026',
+    desc: 'A lightweight dashboard for tracking an Argentine UVA mortgage, shipped as a static site on Cloudflare Workers.',
+    tags: ['Dashboard', 'Cloudflare Workers', 'Personal Tool'],
+    href: 'https://hipotecario.facundogoni.com.ar/',
+  },
   'certification-prep-pro': {
     name: 'Certification Prep Pro',
     meta: 'iOS · macOS · 2025',

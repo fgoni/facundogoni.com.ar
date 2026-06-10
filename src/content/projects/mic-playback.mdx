@@ -1,0 +1,23 @@
+---
+title: "Mic Playback Lab"
+description: "A small browser-based microphone playback tester"
+tags: ["Web Audio", "Cloudflare Workers", "Tool"]
+demoUrl: "https://mic.facundogoni.com.ar/"
+status: "Active"
+---
+
+Mic Playback Lab is a tiny utility for testing a microphone directly in the browser. Press record, say something, stop, and immediately play back the captured audio.
+
+## Overview
+
+The goal was to keep the loop as short as possible: no upload, no account, no extra UI. The audio stays in the browser and the same visual meter reacts while recording and during playback.
+
+## Technical Stack
+
+- **Frontend**: Static HTML, CSS, and JavaScript
+- **Audio**: MediaRecorder and Web Audio API
+- **Hosting**: Cloudflare Workers Static Assets
+
+## Result
+
+A focused, single-purpose tool that makes microphone checks fast and private.
