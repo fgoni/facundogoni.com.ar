@@ -1,0 +1,35 @@
+---
+title: "One screen for all my agents: Claude Code's agent view"
+date: "2026-06-10"
+description: "Claude Code's agent view turns the CLI into a dispatch board: every background session in one list, grouped by who needs you, with new agents one prompt away."
+---
+
+Running one Claude Code session is easy. Running six is where it used to fall apart: a terminal tab per agent, alt-tabbing around to check which ones finished, which ones are stuck waiting for a permission prompt, and which one quietly asked me a question twenty minutes ago.
+
+Claude Code's [agent view](https://code.claude.com/docs/en/agent-view) fixes exactly that. Run `claude agents` and you get a single screen with every background session as a row: what it's doing, a summary of its latest activity, and whether it needs you. It shipped as a research preview in May 2026 (v2.1.139+), and it has quickly become my default way of opening Claude Code.
+
+## The dispatch board
+
+The mental model shift is the interesting part. Instead of "open a terminal, start a session, babysit it", agent view works like a dispatch board. There's an input at the bottom; you type a task, hit Enter, and it becomes a new background session running on its own. Type another one. And another. Each row keeps working with no terminal attached — a supervisor process runs them, so you can close the window, even close your shell, and the work keeps going.
+
+The list is grouped by what matters: sessions that **need input** float to the top, then **ready for review** (the ones with an open pull request), then **working**, then **completed**. So triage is a glance: anything at the top of the list is waiting on me; everything else is making progress without me.
+
+From a row you can *peek* at a session to read its latest output and reply inline, or *attach* to drop into the full conversation — at which point it's a normal Claude Code session, every command and shortcut works. Press `←` and you're back at the board.
+
+## Getting sessions in there
+
+Three ways, and they compose nicely:
+
+- **From the board:** type the prompt in the dispatch input. `@subagent` names work, and `/skill` commands dispatch as the first prompt.
+- **From inside a session:** run `/bg` and the conversation you're in moves to the background and shows up as a row. Great for "this is going to take a while, I'll check back".
+- **From the shell:** `claude --bg "investigate the flaky test"` starts a session that goes straight to the background. You can name it (`--name`), pin a model, or even run a specific subagent as the main agent.
+
+Parallel sessions in the same git repo don't trample each other: before editing files, each one moves into its own isolated worktree under `.claude/worktrees/`, so they all read the same checkout but write separately. One thing to keep in mind: each session burns through your subscription quota independently, so a big fleet adds up roughly linearly.
+
+## Why this changes the day
+
+Before agent view, the number of agents I ran in parallel was capped by my tolerance for tab juggling — in practice, two or three. Now the cap is how much independent work I can articulate. A bug fix, a PR review, and a flaky-test investigation are three rows, not three terminals. I dispatch them in the morning, work on whatever needs a human, and check the board the way you'd check a kitchen ticket rail.
+
+It also pairs beautifully with [prompting by voice](/ramblings/prompting-agents-by-voice-with-hex): since v2.1.145 the dispatch input supports push-to-talk dictation, so "describe task, release key, Enter" is the whole loop. Saying what I want, into a board that fans it out to as many agents as needed, feels much closer to delegating to a team than to using a code editor.
+
+It's still a research preview, so the interface and shortcuts may move around. But the direction is clear: the unit of work isn't the session anymore — it's the fleet, and the fleet finally has a control room.
