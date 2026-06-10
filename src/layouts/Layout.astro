@@ -264,6 +264,27 @@ const isActive = (href: string) => {
       margin-bottom: 8px;
     }
 
+    .prose blockquote {
+      margin: 28px 0;
+      padding: 4px 0 4px 24px;
+      border-left: 2px solid var(--ink);
+      font-style: italic;
+    }
+
+    .prose blockquote p { margin-bottom: 12px; }
+    .prose blockquote p:last-child { margin-bottom: 0; }
+
+    .prose blockquote.tweet {
+      font-style: normal;
+    }
+
+    .prose blockquote.tweet footer {
+      margin-top: 12px;
+      font-family: var(--sans);
+      font-size: 14px;
+      color: var(--muted);
+    }
+
     .prose a {
       color: var(--ink);
       text-decoration: underline;
