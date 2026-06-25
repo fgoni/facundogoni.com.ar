@@ -1,0 +1,31 @@
+---
+title: "Ghostty × Claude Code"
+description: "A theme visualizer that previews how Claude Code looks in every Ghostty terminal theme — rendered by Ghostty's real VT engine."
+tags: ["Astro", "WebAssembly", "Cloudflare Workers"]
+demoUrl: "https://cc-themes-for-ghostty.facundogoni.com.ar/"
+status: "Active"
+---
+
+Ghostty × Claude Code is a theme visualizer: see how a **Claude Code** session looks in every **Ghostty** terminal theme before you commit to one — rendered by Ghostty's *real* terminal engine compiled to WebAssembly, not a CSS approximation.
+
+<figure>
+  <img src="/assets/img/projects/ghostty-claude-themes.png" alt="The Ghostty × Claude Code theme visualizer showing the same Claude Code session rendered under two different Ghostty themes side by side." />
+  <figcaption>The same Claude Code session, re-colored by every Ghostty theme.</figcaption>
+</figure>
+
+## Overview
+
+Each card is a live terminal running the *same* captured Claude Code session, re-colored by a different theme. Because the bytes are identical across every card, the only thing that changes is the palette — so you can compare themes honestly, side by side, and pick the one that reads best.
+
+It assumes Claude Code is on its `dark-ansi` theme — the mode where Claude emits indexed ANSI colors and lets the terminal's palette decide the real colors.
+
+## Technical Stack
+
+- **Framework**: Astro (static)
+- **Rendering**: `ghostty-web` — Ghostty's VT engine in WebAssembly — for a real terminal per theme
+- **Content**: a real Claude Code session captured once, replayed as theme-agnostic indexed ANSI
+- **Hosting**: Cloudflare Workers static assets
+
+## Result
+
+A focused tool for choosing a Ghostty theme that looks good with Claude Code — with the option to paste your own Ghostty config and preview it instantly, all in the browser.

@@ -4,10 +4,17 @@ import Layout from '../layouts/Layout.astro';
 
 const collection = await getCollection('projects');
 
-const order = ['mic-playback', 'mortgage-mission-control', 'certification-prep-pro', 'json-assistant', 'stations', 'kiosquito'];
-const romans = ['I', 'II', 'III', 'IV', 'V', 'VI'];
+const order = ['ghostty-claude-themes', 'mic-playback', 'mortgage-mission-control', 'certification-prep-pro', 'json-assistant', 'stations', 'kiosquito'];
+const romans = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
 
 const overrides: Record<string, { name: string; meta: string; desc: string; tags: string[]; href: string }> = {
+  'ghostty-claude-themes': {
+    name: 'Ghostty × Claude Code',
+    meta: 'Web · 2026',
+    desc: "A theme visualizer that previews how a Claude Code session looks in every Ghostty terminal theme — rendered by Ghostty's real VT engine in WebAssembly, not a CSS fake.",
+    tags: ['Astro', 'WebAssembly', 'Cloudflare Workers'],
+    href: 'https://cc-themes-for-ghostty.facundogoni.com.ar/',
+  },
   'mic-playback': {
     name: 'Mic Playback Lab',
     meta: 'Web · 2026',
@@ -74,7 +81,7 @@ const projects = order
 
   <div class="projects">
     {projects.map((p) => (
-      <a href={p.href} target="_blank" rel="noopener noreferrer" class="project">
+      <a href={`/projects/${p.slug}`} class="project">
         <div class="project-num">{p.n}</div>
         <div class="project-name">{p.name}</div>
         <div class="project-desc">{p.desc}</div>
@@ -84,7 +91,7 @@ const projects = order
             {p.tags.map((t) => <span class="tag">{t}</span>)}
           </div>
         </div>
-        <div class="project-arrow" aria-hidden="true">↗</div>
+        <div class="project-arrow" aria-hidden="true">→</div>
       </a>
     ))}
     <div class="projects-end" aria-hidden="true"></div>
