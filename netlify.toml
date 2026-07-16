@@ -9,8 +9,10 @@
   from = "/ramblings"
   to = "/notes"
   status = 301
+  force = true
 
 [[redirects]]
   from = "/ramblings/*"
   to = "/notes/:splat"
   status = 301
+  force = true
