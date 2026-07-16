@@ -59,6 +59,8 @@ const overrides: Record<string, { name: string; meta: string; desc: string; tags
   },
 };
 
+const description = 'Selected web, iOS, and macOS products built and shipped by Facundo Goñi, from native developer tools to focused web applications.';
+
 const projects = order
   .map((slug, i) => {
     const project = collection.find((p) => p.slug === slug);
@@ -73,7 +75,7 @@ const projects = order
   .filter((p): p is NonNullable<typeof p> => p !== null);
 ---
 
-<Layout title="Work — Facundo Goñi">
+<Layout title="Work — Facundo Goñi" description={description}>
   <div class="eyebrow">Selected work</div>
   <h1 class="page-title">
     Things I've<br/><em class="em">shipped.</em>

@@ -1,8 +1,35 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+const description = 'Independent web and mobile developer in Buenos Aires with 20+ years of experience shipping high-quality products from idea to production.';
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'ProfilePage',
+      '@id': 'https://www.facundogoni.com.ar/#profile',
+      url: 'https://www.facundogoni.com.ar/',
+      name: 'Facundo Goñi — Web & mobile developer',
+      mainEntity: { '@id': 'https://www.facundogoni.com.ar/#person' },
+    },
+    {
+      '@type': 'Person',
+      '@id': 'https://www.facundogoni.com.ar/#person',
+      name: 'Facundo Goñi',
+      url: 'https://www.facundogoni.com.ar/',
+      image: 'https://www.facundogoni.com.ar/assets/img/8738638.jpg',
+      jobTitle: 'Web & mobile developer',
+      homeLocation: { '@type': 'Place', name: 'Buenos Aires, Argentina' },
+      sameAs: [
+        'https://github.com/fgoni',
+        'https://www.linkedin.com/in/facundogoni/',
+      ],
+    },
+  ],
+};
 ---
 
-<Layout title="Facundo Goñi — Web & mobile developer">
+<Layout title="Facundo Goñi — Web & mobile developer" description={description} jsonLd={jsonLd}>
   <section class="hero">
     <div class="hero-left">
       <div class="eyebrow">Independent developer · 20+ years shipping</div>

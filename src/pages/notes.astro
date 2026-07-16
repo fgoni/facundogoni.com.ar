@@ -24,9 +24,11 @@ const formatDate = (d: string) =>
 const sortedPosts = blogPosts
   .slice()
   .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+
+const description = 'Notes by Facundo Goñi on developer tools, AI-assisted workflows, product development, and the details that help software ship.';
 ---
 
-<Layout title="Notes — Facundo Goñi">
+<Layout title="Notes — Facundo Goñi" description={description}>
   <div class="notes">
     <aside class="intro">
       <div class="eyebrow">Notes</div>
@@ -42,7 +44,7 @@ const sortedPosts = blogPosts
       {sortedPosts.map((post) => (
         <a href={`/notes/${post.slug}`} class="post">
           <div class="post-meta">
-            <div>{formatDate(post.data.date)}</div>
+            <time datetime={post.data.date}>{formatDate(post.data.date)}</time>
             <div class="post-read">{reads[post.slug] ?? ''}</div>
           </div>
           <div class="post-body">

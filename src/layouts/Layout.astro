@@ -1,12 +1,26 @@
 ---
 interface Props {
   title: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  publishedTime?: string;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
-const { title } = Astro.props;
+const {
+  title,
+  description = 'Web & mobile developer focused on shipping high-quality products fast — from idea to production.',
+  image = '/assets/img/og-default.png',
+  type = 'website',
+  publishedTime,
+  jsonLd,
+} = Astro.props;
 import { ClientRouter } from 'astro:transitions';
 import '../styles/prism-okaidia.css';
 
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const socialImageURL = new URL(image, Astro.site);
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const navItems = [
   { key: 'about', label: 'about', href: '/' },
@@ -26,8 +40,29 @@ const isActive = (href: string) => {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Web & mobile developer focused on shipping high-quality products fast — from idea to production.">
+  <meta name="description" content={description}>
+  <meta name="robots" content="index, follow">
   <title>{title}</title>
+  <link rel="canonical" href={canonicalURL}>
+
+  <meta property="og:site_name" content="Facundo Goñi">
+  <meta property="og:type" content={type}>
+  <meta property="og:title" content={title}>
+  <meta property="og:description" content={description}>
+  <meta property="og:url" content={canonicalURL}>
+  <meta property="og:image" content={socialImageURL}>
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Facundo Goñi — Web & mobile developer">
+  {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content={title}>
+  <meta name="twitter:description" content={description}>
+  <meta name="twitter:image" content={socialImageURL}>
+  <link rel="alternate" type="application/rss+xml" title="Facundo Goñi — Notes" href={new URL('/rss.xml', Astro.site)}>
+  {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">

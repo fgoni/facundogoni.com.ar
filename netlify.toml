@@ -6,6 +6,11 @@
   NODE_VERSION = "18"
 
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+  from = "/ramblings"
+  to = "/notes"
+  status = 301
+
+[[redirects]]
+  from = "/ramblings/*"
+  to = "/notes/:splat"
+  status = 301

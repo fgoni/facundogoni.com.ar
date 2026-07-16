@@ -12,9 +12,43 @@ export async function getStaticPaths() {
 
 const { project } = Astro.props;
 const { Content } = await project.render();
+const canonicalURL = new URL(Astro.url.pathname, Astro.site).href;
+const relatedURLs = [project.data.appStoreUrl, project.data.demoUrl, project.data.githubUrl].filter(Boolean);
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': project.data.appStoreUrl ? 'SoftwareApplication' : 'CreativeWork',
+      '@id': `${canonicalURL}#project`,
+      name: project.data.title,
+      description: project.data.description,
+      url: canonicalURL,
+      keywords: project.data.tags.join(', '),
+      ...(relatedURLs.length > 0 ? { sameAs: relatedURLs } : {}),
+      author: {
+        '@type': 'Person',
+        '@id': 'https://www.facundogoni.com.ar/#person',
+        name: 'Facundo Goñi',
+        url: 'https://www.facundogoni.com.ar/',
+      },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.facundogoni.com.ar/' },
+        { '@type': 'ListItem', position: 2, name: 'Work', item: 'https://www.facundogoni.com.ar/projects' },
+        { '@type': 'ListItem', position: 3, name: project.data.title, item: canonicalURL },
+      ],
+    },
+  ],
+};
 ---
 
-<Layout title={`${project.data.title} — Facundo Goñi`}>
+<Layout
+  title={`${project.data.title} — Facundo Goñi`}
+  description={project.data.description}
+  jsonLd={jsonLd}
+>
   <article class="prose">
     <header class="project-header">
       <div class="eyebrow">Work {project.data.status ? `· ${project.data.status}` : ''}</div>

@@ -16,12 +16,48 @@ const { Content } = await post.render();
 const formattedDate = new Date(post.data.date).toLocaleDateString('en-US', {
   month: 'short', day: 'numeric', year: 'numeric',
 });
+const publishedTime = new Date(post.data.date).toISOString();
+const canonicalURL = new URL(Astro.url.pathname, Astro.site).href;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'BlogPosting',
+      '@id': `${canonicalURL}#article`,
+      headline: post.data.title,
+      description: post.data.description,
+      datePublished: publishedTime,
+      mainEntityOfPage: canonicalURL,
+      image: 'https://www.facundogoni.com.ar/assets/img/og-default.png',
+      author: {
+        '@type': 'Person',
+        '@id': 'https://www.facundogoni.com.ar/#person',
+        name: 'Facundo Goñi',
+        url: 'https://www.facundogoni.com.ar/',
+      },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.facundogoni.com.ar/' },
+        { '@type': 'ListItem', position: 2, name: 'Notes', item: 'https://www.facundogoni.com.ar/notes' },
+        { '@type': 'ListItem', position: 3, name: post.data.title, item: canonicalURL },
+      ],
+    },
+  ],
+};
 ---
 
-<Layout title={`${post.data.title} — Facundo Goñi`}>
+<Layout
+  title={`${post.data.title} — Facundo Goñi`}
+  description={post.data.description}
+  type="article"
+  publishedTime={publishedTime}
+  jsonLd={jsonLd}
+>
   <article class="prose">
     <header class="post-header">
-      <div class="eyebrow">Notes · {formattedDate}</div>
+      <div class="eyebrow">Notes · <time datetime={post.data.date}>{formattedDate}</time></div>
       <h1>{post.data.title}</h1>
     </header>
     <Content />

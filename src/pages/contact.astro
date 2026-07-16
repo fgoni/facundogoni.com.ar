@@ -1,6 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
+const description = 'Contact Facundo Goñi about freelance web and mobile development, product consulting, and rapid prototyping projects.';
+
 const elsewhere = [
   { label: 'GitHub', value: 'github.com/fgoni', href: 'https://github.com/fgoni' },
   { label: 'LinkedIn', value: '/in/facundogoni', href: 'https://www.linkedin.com/in/facundogoni/' },
@@ -8,7 +10,7 @@ const elsewhere = [
 ];
 ---
 
-<Layout title="Contact — Facundo Goñi">
+<Layout title="Contact — Facundo Goñi" description={description}>
   <div class="contact">
     <div class="eyebrow">Get in touch</div>
     <h1 class="page-title">
