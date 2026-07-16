@@ -1,0 +1,108 @@
+---
+title: "Guiding GPT-5.6 Sol through a Vue 3 migration"
+date: "2026-07-16"
+description: "I used GPT-5.6 Sol inside Pi to migrate a large Laravel app, then turned the session's tests and failures into a reusable playbook and goal."
+---
+
+I started the session with a broad request: update Laravel, Vite, and the rest of the dependency stack.
+
+A few prompts later, the model had inspected production, found that Vite 8 was blocked by Vue 2, and explained what Vue 3 would change for the WordPress embeds. I asked it to create a migration branch, keep Vite 8 for later, and start moving the app to Vue 3.
+
+The model was <a href="https://openai.com/index/previewing-gpt-5-6-sol/" target="_blank" rel="noopener noreferrer">GPT-5.6 Sol</a>, running at medium reasoning inside <a href="https://pi.dev" target="_blank" rel="noopener noreferrer">Pi</a>. Pi has become my preferred harness for long coding sessions with Sol. It stays responsive, keeps the tool loop simple, and leaves the model enough room to inspect the repository instead of filling the context with harness ceremony.
+
+The session stretched overnight. Before I asked to merge, Sol had handled 1,038 tool results and gone through three context compactions. I kept steering it with short, concrete requests: inspect the Vite warnings, test every product, click this uploader, remove the compatibility layer, audit every view, fix every remaining failure.
+
+That sequence matters because I did not write the implementation. The model migrated the application. I reviewed its work, pointed it toward suspicious behavior, and kept raising the standard for what counted as finished.
+
+## I asked it to audit 68 pages
+
+The app renders Vue component tags from Blade. It has several JavaScript entry points, dozens of product forms, uploads, date pickers, custom elements, Shadow DOM widgets, and scripts loaded by external sites.
+
+I asked Sol to open every public, admin, and development page with Playwright and record console errors, Vue warnings, uncaught exceptions, failed requests, and HTTP responses of 400 or higher.
+
+The audit grew to 68 pages. Its allowlist had one known Chromium GPU warning. Sol traced everything else back to the application.
+
+It found mixed-content image URLs, missing fonts, undeclared Vue events, invalid prop values, and pages that assumed a user was logged in. Several pages looked normal while the console filled with warnings.
+
+The existing component tests covered local behavior. The browser run exposed different problems: attribute names changed by HTML parsing, popups teleported behind other elements, and invisible boxes sitting over nearby buttons.
+
+## I had it exercise more than 200 controls
+
+Some selects opened and displayed the correct options while leaving the quote model unchanged. I asked Sol to test every input in the quote tool, project registration flow, and calculator against the actual data model.
+
+It built a binding audit for text fields, radios, checkboxes, native dates, Element pickers, autocomplete, uploads, retries, removals, and calculator controls. Each test changed a control and checked the resulting UI, request payload, or saved record.
+
+A few early tests inspected Vue's development internals. They failed against the production bundle because those internals were gone. I asked the model to rewrite them around behavior visible outside the component. The resulting tests ran against Vite development mode and compiled production assets.
+
+## The upload component took several rounds
+
+Sol replaced a Vue 2 upload package with a local component. I opened the page and found that removal did nothing. After that fix, I clicked it again and got the same result. The model had been working on a similar uploader in another route.
+
+I sent the exact URL and a screenshot. Sol found the right component, restored removal, and then filled in the behavior lost with the old package: drag and drop, the 20 MB limit, retrying a failed file, and reactive updates.
+
+Playwright found one more issue. The drop area extended beyond its visible bounds and intercepted clicks in the product section below. The screenshot looked fine. The pointer landed on the wrong element.
+
+From then on, I asked for real clicks on dialogs, lightboxes, dropdowns, and uploaders. Visibility remained one assertion among several.
+
+## Blade required the Vue compiler build
+
+Vite completed the build, then Chrome printed:
+
+```text
+Component provided template option but runtime compilation is not supported
+```
+
+Sol traced it to the templates supplied by Blade at runtime and changed the Vite alias:
+
+```js
+resolve: {
+  alias: {
+    vue: 'vue/dist/vue.esm-bundler.js',
+  },
+}
+```
+
+The next browser pass surfaced HTML parsing details. Attributes in Blade needed kebab-case, custom component tags needed closing tags, and invalid table markup was rearranged before Vue mounted. The model fixed those while preserving the existing tags and attributes used by the external embeds.
+
+## I kept sending it back to the screenshots
+
+The first visual runs included viewport changes, late fonts, remote gallery images, an `IntersectionObserver`, and a development control panel.
+
+I asked Sol to make the tests deterministic. It fixed viewport sizes, mocked remote media, waited for fonts and relevant images, controlled the observer, and hid test-only controls. It also stopped taking full-page screenshots on pages whose height came from dynamic content.
+
+One two-pixel diff disappeared with a fixed 1280 × 1800 viewport. Another came from a product image that had not finished loading. Once those variables were gone, the remaining diffs pointed to actual layout changes.
+
+## The session kept expanding its own test surface
+
+A native date input moved by one day because its default passed through UTC. An old HTTP image URL failed over HTTPS. A partial dark theme appeared in a light-only form. A backend framework update tried to read serialized cache values written by the previous version and returned incomplete PHP objects.
+
+Whenever one of these appeared, I asked the model to fix it and add a regression. The suite became a record of the migration's surprises.
+
+The final browser run covered all 48 product forms and passed 127 Chromium tests. The backend passed 587 tests with 10 skipped. Sol ran the browser suite against the Vite dev server and the production bundle because both modes had already found unique failures.
+
+## I asked for a hostile review of the deploy
+
+After the application tests passed, I asked Sol to review the deployment workflow adversarially. It inspected the actual Forge server along with the YAML.
+
+The review found that `git reset --hard` would overwrite a generated file already modified on the server. An old workflow run could deploy stale code over a newer database. Migrations could boot with configuration cached by the previous release. The rollback restored frontend assets while leaving code, Composer dependencies, cache, and database changes untouched.
+
+The asset swap removed every previous content-hashed file. External sites cached the old manifest for five minutes, so they could keep requesting deleted files until the cache expired.
+
+I also sent the changes through a second model review. It pointed out that an explicit `exit 1` skips the shell's `ERR` trap. Sol reproduced that behavior with a small command and added the leaked staging directory to the findings.
+
+The server inspection covered the real queue command, scheduler, cached configuration, modified files, disk usage, and health endpoint. That evidence turned a generic deployment review into a list tied to the machine that would run it.
+
+## The goal came after the first migration
+
+I guided the first migration through successive prompts. I installed [`pi-codex-goal`](https://github.com/fitchmultz/pi-codex-goal) the following day.
+
+By then I had asked Sol to extract the migration into two files:
+
+- a generic playbook for repository inventory, Playwright coverage, screenshot stabilization, adversarial review, and deployment
+- a project-specific goal for the next Vue 2 application
+
+I installed `pi-codex-goal`, loaded that goal in Pi, and asked GPT-5.6 Sol to start the next migration from a written completion contract. The extension keeps the objective, verification requirements, constraints, and completion state attached to the Pi session while the model works through long tool-heavy runs.
+
+The playbook and reusable goal prompt are in this [Vue 2 to Vue 3 migration Gist](https://gist.github.com/fgoni/79319b9ae5e305fec3208136375cc314).
+
+For the next project, the model starts with the inventory and acceptance criteria that emerged from this session. My job as a software engineer is to set the constraints, inspect the evidence, catch what feels wrong, and keep steering the model until the result holds up.
