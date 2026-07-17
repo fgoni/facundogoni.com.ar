@@ -1,0 +1,31 @@
+---
+import ServiceLayout from '../../layouts/ServiceLayout.astro';
+
+const description = 'Full-stack web development for new products, internal tools, and production applications using Laravel, Astro, Vue, and modern cloud platforms.';
+---
+
+<ServiceLayout
+  title="Web development"
+  description={description}
+  serviceType="Full-stack web development"
+  slug="web-development"
+>
+  <h2>Build the useful version first</h2>
+  <p>I build web products that solve a concrete problem before they collect infrastructure. That can mean a Laravel application with real business rules, a fast Astro site, an internal dashboard, or a small tool deployed at the edge.</p>
+  <p>The goal is not the smallest demo. It is the smallest version you can safely put in front of real people and keep extending.</p>
+
+  <h2>Modernize without breaking production</h2>
+  <p>Existing applications need a different kind of speed. I work through framework upgrades, Vue migrations, build tooling, API integrations, and performance problems while preserving the behavior people already depend on.</p>
+  <p>Build success is only the start: I test rendered pages, forms, uploads, browser errors, and deployment behavior before calling a migration done.</p>
+
+  <h2>Typical work</h2>
+  <ul>
+    <li>New Laravel, Astro, or Vue products</li>
+    <li>Internal tools and operational dashboards</li>
+    <li>Framework and frontend migrations</li>
+    <li>Third-party API and payment integrations</li>
+    <li>Performance, reliability, and deployment work</li>
+  </ul>
+
+  <p>See <a href="/projects/stations">Stations</a> for Laravel on serverless infrastructure, or read how I <a href="/notes/vue-3-migration-is-not-done-when-it-builds">validated a large Vue 3 migration beyond the build step</a>.</p>
+</ServiceLayout>

@@ -1,44 +1,30 @@
 ---
 title: "Stations"
-description: "A Reddit aggregator for battlestations, workstations, and desk setups"
+description: "A Laravel aggregator for browsing battlestations, workspaces, and desk setups from multiple Reddit communities"
 tags: ["Laravel", "PHP", "Vercel", "Reddit API"]
 demoUrl: "https://stations.facundogoni.com.ar/"
 githubUrl: "https://github.com/fgoni/stations"
 status: "Active"
 ---
 
-A Reddit aggregator web application that collects and displays posts from various workstation and battlestation subreddits. Built with Laravel and deployed on Vercel, Stations showcases how PHP applications can run efficiently on serverless infrastructure.
+Stations brings desk setups from several Reddit communities into one feed. Instead of checking each subreddit separately, you can browse battlestations, workspaces, Mac setups, and deliberately rough setups from the same interface.
 
-## Overview
+## The problem
 
-Stations solves the problem of browsing multiple Reddit communities to find inspiring desk setups, battlestations, and workspace configurations. Instead of visiting multiple subreddits, users can browse all workstation-related content in one unified interface.
+The best workspace inspiration is spread across communities with different names and cultures. Reddit makes each one easy to follow, but not easy to compare. Stations treats them as categories in one visual catalog.
 
-## Key Features
+## What it does
 
-- **Multi-Subreddit Aggregation**: Aggregates posts from r/battlestations, r/workspaces, r/macsetups, r/shittybattlestations, and more
-- **Categorized Browsing**: Filter by different station types (Average Battlestations, Work Stations, Battlestations, Mac Setups, etc.)
-- **Clean Interface**: Modern, responsive design built with Laravel Blade and Tailwind CSS
-- **Vercel Deployment**: Demonstrates Laravel running on Vercel's serverless infrastructure
-- **Real-time Updates**: Fetches and displays the latest posts from Reddit
+- Aggregates posts from communities including r/battlestations, r/workspaces, and r/macsetups
+- Separates feeds by setup type without requiring a new site or search
+- Keeps votes and source context visible
+- Provides bookmarks for setups worth returning to
+- Uses a responsive image-first layout for desktop and mobile browsing
 
-## Technical Stack
+## The build
 
-Built with:
-- **Backend**: Laravel (PHP 87.2%)
-- **Frontend**: Blade templates (12.8%)
-- **Styling**: Tailwind CSS
-- **Deployment**: Vercel (serverless PHP runtime)
-- **API**: Reddit API for fetching posts
-- **Build Tools**: Webpack Mix
+The application runs Laravel and Blade on Vercel's serverless PHP runtime, with Tailwind CSS for the interface and the Reddit API as its source. Deploying a traditional Laravel application to an on-demand platform required adapting routing and runtime configuration to Vercel rather than moving the product to a different framework.
 
-## Challenges & Solutions
+## Result
 
-Deploying a Laravel application on Vercel required careful configuration of the serverless PHP runtime. The project demonstrates how to adapt traditional Laravel applications to work with Vercel's on-demand infrastructure while maintaining all the framework's powerful features.
-
-## Results & Impact
-
-Stations serves as both a useful tool for discovering workspace inspiration and a demonstration project showing Laravel's flexibility on modern serverless platforms. The project showcases how PHP applications can leverage Vercel's infrastructure for scalable, cost-effective deployments.
-
-## What I Learned
-
-This project provided valuable experience in deploying Laravel applications on serverless infrastructure. It reinforced the importance of understanding platform-specific requirements and adapting applications accordingly, while also demonstrating Laravel's versatility across different deployment targets.
+Stations is both a useful workspace browser and a practical demonstration that a Laravel application can run on serverless infrastructure. The live product stays small while exercising the full path from external API to PHP backend to responsive feed.

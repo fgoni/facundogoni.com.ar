@@ -13,7 +13,39 @@ export async function getStaticPaths() {
 const { project } = Astro.props;
 const { Content } = await project.render();
 const canonicalURL = new URL(Astro.url.pathname, Astro.site).href;
+const socialImage = `/og/projects/${project.slug}.png`;
 const relatedURLs = [project.data.appStoreUrl, project.data.demoUrl, project.data.githubUrl].filter(Boolean);
+const relatedBySlug: Record<string, { title: string; href: string }[]> = {
+  'certification-prep-pro': [
+    { title: 'iOS & macOS development', href: '/services/ios-macos-development' },
+    { title: 'JSON Assistant', href: '/projects/json-assistant' },
+  ],
+  'ghostty-claude-themes': [
+    { title: 'One screen for all my agents', href: '/notes/one-screen-for-all-my-agents' },
+    { title: 'Prompting agents by voice with Hex', href: '/notes/prompting-agents-by-voice-with-hex' },
+  ],
+  'json-assistant': [
+    { title: 'iOS & macOS development', href: '/services/ios-macos-development' },
+    { title: 'Certification Prep Pro', href: '/projects/certification-prep-pro' },
+  ],
+  'kiosquito': [
+    { title: 'Web development', href: '/services/web-development' },
+    { title: 'Rapid prototyping', href: '/services/rapid-prototyping' },
+  ],
+  'mic-playback': [
+    { title: 'Rapid prototyping', href: '/services/rapid-prototyping' },
+    { title: 'Web development', href: '/services/web-development' },
+  ],
+  'mortgage-mission-control': [
+    { title: 'How I shipped it entirely from my phone', href: '/notes/mortgage-mission-control-from-my-phone' },
+    { title: 'Rapid prototyping', href: '/services/rapid-prototyping' },
+  ],
+  'stations': [
+    { title: 'Web development', href: '/services/web-development' },
+    { title: 'Jira time tracking on the CLI', href: '/notes/jira-time-tracking-cli' },
+  ],
+};
+const relatedLinks = relatedBySlug[project.slug] ?? [];
 const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -23,6 +55,7 @@ const jsonLd = {
       name: project.data.title,
       description: project.data.description,
       url: canonicalURL,
+      image: new URL(socialImage, Astro.site).href,
       keywords: project.data.tags.join(', '),
       ...(relatedURLs.length > 0 ? { sameAs: relatedURLs } : {}),
       author: {
@@ -47,6 +80,7 @@ const jsonLd = {
 <Layout
   title={`${project.data.title} — Facundo Goñi`}
   description={project.data.description}
+  image={socialImage}
   jsonLd={jsonLd}
 >
   <article class="prose">
@@ -77,6 +111,13 @@ const jsonLd = {
         </a>
       )}
     </div>
+
+    {relatedLinks.length > 0 && (
+      <aside class="related">
+        <div class="related-label">Related</div>
+        {relatedLinks.map((link) => <a href={link.href}>{link.title} <span>→</span></a>)}
+      </aside>
+    )}
   </article>
 
   <a href="/projects" class="back-link">← Back to work</a>
@@ -126,6 +167,33 @@ const jsonLd = {
   }
 
   .links a:hover { opacity: 0.7; }
+
+  .related {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .related-label {
+    margin-bottom: 4px;
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .related a {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    text-decoration: none;
+  }
+
+  .related a:hover { opacity: 0.65; }
 
   .back-link {
     display: inline-block;

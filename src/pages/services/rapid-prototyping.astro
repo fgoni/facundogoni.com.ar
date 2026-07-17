@@ -1,0 +1,30 @@
+---
+import ServiceLayout from '../../layouts/ServiceLayout.astro';
+
+const description = 'Rapid product prototyping and technical consulting to turn a rough idea into a working, testable product without overbuilding it.';
+---
+
+<ServiceLayout
+  title="Rapid prototyping"
+  description={description}
+  serviceType="Rapid product prototyping and technical consulting"
+  slug="rapid-prototyping"
+>
+  <h2>Make the idea answer questions</h2>
+  <p>A useful prototype should settle something: whether the workflow makes sense, whether the data is available, whether people will use it, or whether the idea deserves a larger investment.</p>
+  <p>I help reduce the idea to that question, choose the lightest practical stack, and ship something real enough to test. No six-week architecture phase for a product that still needs to prove its core interaction.</p>
+
+  <h2>Small does not mean disposable</h2>
+  <p>Fast prototypes often become production software. I keep the scope tight, but I do not hide essential decisions behind throwaway code. The result can grow if the idea works, or remain a dependable small tool if that is all it needs to be.</p>
+
+  <h2>Typical work</h2>
+  <ul>
+    <li>Product scoping and technical direction</li>
+    <li>Clickable or working prototypes</li>
+    <li>Short validation builds</li>
+    <li>Internal tools that replace spreadsheets</li>
+    <li>Production hardening after validation</li>
+  </ul>
+
+  <p><a href="/projects/mortgage-mission-control">Mortgage Mission Control</a> turned a recurring spreadsheet calculation into a glanceable dashboard. I also wrote about <a href="/notes/mortgage-mission-control-from-my-phone">shipping its first version entirely from my phone</a>.</p>
+</ServiceLayout>

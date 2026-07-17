@@ -62,6 +62,15 @@ const jsonLd = {
     </div>
   </section>
 
+  <section class="services-preview">
+    <div class="eyebrow">Services</div>
+    <div class="service-links">
+      <a href="/services/web-development">Web development <span>→</span></a>
+      <a href="/services/ios-macos-development">iOS &amp; macOS apps <span>→</span></a>
+      <a href="/services/rapid-prototyping">Rapid prototyping <span>→</span></a>
+    </div>
+  </section>
+
   <section class="now">
     <div class="eyebrow">Currently</div>
     <div class="now-item">
@@ -153,6 +162,37 @@ const jsonLd = {
 
   .bio a:hover { opacity: 0.7; }
 
+  .services-preview {
+    margin-top: 104px;
+    padding-top: 32px;
+    border-top: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 48px;
+  }
+
+  .service-links {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+
+  .service-links a {
+    min-height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--rule);
+    font-size: 18px;
+    text-decoration: none;
+    transition: opacity 180ms;
+  }
+
+  .service-links a:hover { opacity: 0.65; }
+  .service-links a:active { transform: scale(0.96); }
+
   .now {
     margin-top: 104px;
     padding-top: 32px;
@@ -193,6 +233,14 @@ const jsonLd = {
     }
 
     .availability { margin-top: 32px; }
+
+    .services-preview {
+      margin-top: 64px;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .service-links { grid-template-columns: 1fr; gap: 20px; }
 
     .now {
       margin-top: 64px;

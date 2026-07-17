@@ -18,6 +18,40 @@ const formattedDate = new Date(post.data.date).toLocaleDateString('en-US', {
 });
 const publishedTime = new Date(post.data.date).toISOString();
 const canonicalURL = new URL(Astro.url.pathname, Astro.site).href;
+const socialImage = `/og/notes/${post.slug}.png`;
+const socialImageURL = new URL(socialImage, Astro.site).href;
+const relatedBySlug: Record<string, { title: string; href: string }[]> = {
+  'jira-time-tracking-cli': [
+    { title: 'Web development', href: '/services/web-development' },
+    { title: 'Stations: Laravel on Vercel', href: '/projects/stations' },
+  ],
+  'mortgage-mission-control-from-my-phone': [
+    { title: 'Mortgage Mission Control', href: '/projects/mortgage-mission-control' },
+    { title: 'Rapid prototyping', href: '/services/rapid-prototyping' },
+  ],
+  'one-screen-for-all-my-agents': [
+    { title: 'Prompting agents by voice with Hex', href: '/notes/prompting-agents-by-voice-with-hex' },
+    { title: "Stop working on the 'dumb zone'", href: '/notes/stop-working-on-the-dumb-zone' },
+  ],
+  'prompting-agents-by-voice-with-hex': [
+    { title: "One screen for all my agents", href: '/notes/one-screen-for-all-my-agents' },
+    { title: 'Ghostty × Claude Code', href: '/projects/ghostty-claude-themes' },
+  ],
+  'stop-working-on-the-dumb-zone': [
+    { title: 'One screen for all my agents', href: '/notes/one-screen-for-all-my-agents' },
+    { title: 'Guiding GPT-5.6 Sol through a Vue 3 migration', href: '/notes/vue-3-migration-is-not-done-when-it-builds' },
+  ],
+  'vue-3-migration-is-not-done-when-it-builds': [
+    { title: 'Web development and modernization', href: '/services/web-development' },
+    { title: "Stop working on the 'dumb zone'", href: '/notes/stop-working-on-the-dumb-zone' },
+  ],
+  'gpt-5-6-sol-and-codex-artifacts': [
+    { title: 'Guiding GPT-5.6 Sol through a Vue 3 migration', href: '/notes/vue-3-migration-is-not-done-when-it-builds' },
+    { title: 'One screen for all my agents', href: '/notes/one-screen-for-all-my-agents' },
+  ],
+};
+const relatedLinks = relatedBySlug[post.slug] ?? [];
+
 const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -28,7 +62,7 @@ const jsonLd = {
       description: post.data.description,
       datePublished: publishedTime,
       mainEntityOfPage: canonicalURL,
-      image: 'https://www.facundogoni.com.ar/assets/img/og-default.png',
+      image: socialImageURL,
       author: {
         '@type': 'Person',
         '@id': 'https://www.facundogoni.com.ar/#person',
@@ -51,6 +85,7 @@ const jsonLd = {
 <Layout
   title={`${post.data.title} — Facundo Goñi`}
   description={post.data.description}
+  image={socialImage}
   type="article"
   publishedTime={publishedTime}
   jsonLd={jsonLd}
@@ -61,6 +96,13 @@ const jsonLd = {
       <h1>{post.data.title}</h1>
     </header>
     <Content />
+
+    {relatedLinks.length > 0 && (
+      <aside class="related">
+        <div class="related-label">Keep reading</div>
+        {relatedLinks.map((link) => <a href={link.href}>{link.title} <span>→</span></a>)}
+      </aside>
+    )}
   </article>
 
   <a href="/notes" class="back-link">← Back to notes</a>
@@ -88,5 +130,31 @@ const jsonLd = {
     transition: opacity 160ms;
   }
 
+  .related {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .related-label {
+    margin-bottom: 4px;
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .related a {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    text-decoration: none;
+  }
+
+  .related a:hover { opacity: 0.65; }
   .back-link:hover { opacity: 1; }
 </style>

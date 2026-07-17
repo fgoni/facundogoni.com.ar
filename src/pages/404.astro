@@ -1,0 +1,62 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Page not found — Facundo Goñi"
+  description="The page you were looking for does not exist."
+  noindex
+>
+  <section class="not-found">
+    <div class="eyebrow">Error 404</div>
+    <h1>Nothing here.<br/><em class="em">Let's head back.</em></h1>
+    <p>The page may have moved, or the address may be incorrect.</p>
+    <div class="actions">
+      <a href="/">Back to home</a>
+      <a href="/projects">See my work</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .not-found {
+    max-width: 760px;
+    padding: 24px 0 48px;
+  }
+
+  h1 {
+    margin: 24px 0 32px;
+    font-family: var(--serif);
+    font-size: clamp(64px, 9vw, 108px);
+    font-weight: 400;
+    letter-spacing: -0.035em;
+    line-height: 0.95;
+  }
+
+  p {
+    max-width: 520px;
+    margin: 0;
+    color: var(--muted);
+    font-size: 18px;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-top: 40px;
+  }
+
+  .actions a {
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--sans);
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-underline-offset: 5px;
+  }
+
+  .actions a:active { transform: scale(0.96); }
+</style>

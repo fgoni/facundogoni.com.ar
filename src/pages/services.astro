@@ -1,0 +1,130 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const description = 'Web development, native iOS and macOS apps, and rapid product prototyping by Facundo Goñi.';
+const services = [
+  {
+    title: 'Web development',
+    href: '/services/web-development',
+    meta: 'Laravel · Astro · Vue · Cloudflare',
+    description: 'Full-stack web products, internal tools, and careful modernization of applications already in production.',
+  },
+  {
+    title: 'iOS & macOS apps',
+    href: '/services/ios-macos-development',
+    meta: 'Swift · SwiftUI · AppKit',
+    description: 'Focused native apps that feel at home on Apple platforms, from first prototype through App Store release.',
+  },
+  {
+    title: 'Rapid prototyping',
+    href: '/services/rapid-prototyping',
+    meta: 'Idea · Prototype · Production',
+    description: 'A short path from a rough idea to something real enough to test, use, and decide what deserves more investment.',
+  },
+];
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Development services by Facundo Goñi',
+  itemListElement: services.map((service, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: service.title,
+    url: new URL(service.href, Astro.site).href,
+  })),
+};
+---
+
+<Layout title="Services — Facundo Goñi" description={description} jsonLd={jsonLd}>
+  <div class="eyebrow">How I can help</div>
+  <h1 class="page-title">From rough idea<br/>to <em class="em">shipped product.</em></h1>
+  <p class="intro">I work with founders and product teams that need an experienced developer who can move quickly without leaving a mess behind.</p>
+
+  <div class="services">
+    {services.map((service, index) => (
+      <a href={service.href} class="service">
+        <span class="service-number">0{index + 1}</span>
+        <div>
+          <h2>{service.title}</h2>
+          <p>{service.description}</p>
+          <span class="service-meta">{service.meta}</span>
+        </div>
+        <span class="service-arrow" aria-hidden="true">→</span>
+      </a>
+    ))}
+  </div>
+</Layout>
+
+<style>
+  .page-title {
+    max-width: 900px;
+    margin: 24px 0 32px;
+    font-family: var(--serif);
+    font-size: clamp(56px, 8vw, 96px);
+    font-weight: 400;
+    letter-spacing: -0.035em;
+    line-height: 0.95;
+  }
+
+  .intro {
+    max-width: 620px;
+    margin: 0 0 64px;
+    color: var(--muted);
+    font-size: 20px;
+    line-height: 1.6;
+    text-wrap: pretty;
+  }
+
+  .services { border-bottom: 1px solid var(--rule); }
+
+  .service {
+    display: grid;
+    grid-template-columns: 64px 1fr 40px;
+    gap: 32px;
+    align-items: start;
+    padding: 32px 0;
+    border-top: 1px solid var(--rule);
+    color: inherit;
+    text-decoration: none;
+    transition: opacity 180ms;
+  }
+
+  .service:hover { opacity: 0.7; }
+  .service:active { transform: scale(0.99); }
+
+  .service > div { min-width: 0; }
+
+  .service-number,
+  .service-meta {
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 1.1;
+  }
+
+  .service p {
+    max-width: 640px;
+    margin: 12px 0 16px;
+    color: var(--muted);
+    font-size: 17px;
+    line-height: 1.6;
+  }
+
+  .service-arrow { text-align: right; font-size: 20px; }
+
+  @media (max-width: 680px) {
+    .page-title { font-size: 46px; }
+    .intro { margin-bottom: 48px; }
+    .service { grid-template-columns: 40px minmax(0, 1fr); gap: 16px; }
+    .service-arrow { display: none; }
+    h2 { font-size: 28px; }
+  }
+</style>

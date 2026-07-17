@@ -1,47 +1,33 @@
 ---
 title: "JSON Assistant"
-description: "A fast, privacy-first JSON viewer and formatter for macOS with a warm, high-contrast sepia theme"
+description: "A fast, privacy-first JSON viewer and formatter for macOS with local parsing and a native tree explorer"
 tags: ["Swift", "macOS", "JSON", "Developer Tools"]
 appStoreUrl: "https://apps.apple.com/fi/app/json-assistant/id6753915615?mt=12"
 githubUrl: "https://github.com/fgoni/json-assistant"
 status: "Active"
 ---
 
-A fast, privacy-first JSON viewer and formatter for macOS. JSON Assistant provides a beautiful, developer-friendly interface for working with JSON data. Paste JSON, drop a file, or open from Share Sheet—then pretty-print, explore the tree, and save your snippets. The UI uses a warm, high-contrast sepia theme that's easy on the eyes without sacrificing legibility.
+JSON Assistant is a native macOS viewer and formatter for the JSON that developers handle every day: API responses, configuration files, webhooks, and logs. Paste text, drop a file, or open JSON from the Share Sheet, then inspect it without sending the data anywhere.
 
-## Overview
+## The problem
 
-JSON Assistant solves the common problem of working with JSON data on macOS. Whether you're debugging API responses, analyzing configuration files, inspecting webhooks, or working with server logs, this app provides a clean, native interface for all your JSON manipulation needs. All processing happens on-device for speed and privacy—no network required.
+Browser-based formatters are convenient until the payload contains private customer data, credentials, or an unreleased API response. A local tool removes that tradeoff and can feel much faster when the workflow is mostly copy, inspect, search, and save.
 
-## Key Features
+## What it does
 
-- **Instant Beautify and Compact Views**: Toggle between pretty-printed and compact JSON formats instantly
-- **Clean Tree Explorer**: Navigate complex JSON structures with Collapse/Expand All functionality
-- **Raw ↔ Formatted Comparison**: Side-by-side view to compare raw and formatted JSON
-- **JSON Path Search**: Search functionality for both the sidebar and formatted view
-- **Saved Snippets**: Save JSON snippets with names, timestamps, and quick delete options
-- **Syntax Highlighting**: Tuned for readability with a warm, high-contrast sepia theme
-- **Multiple Input Methods**: Paste JSON, drop files, or open from Share Sheet
-- **On-Device Processing**: All parsing happens on device—no network required for speed and privacy
-- **Keyboard Shortcuts**: Full keyboard support for power users
-- **Works Offline**: No account required, completely offline functionality
+- **Beautify and compact:** switch representations instantly
+- **Tree explorer:** navigate nested objects and collapse or expand branches
+- **JSON Path search:** find values in the sidebar and formatted output
+- **Raw and formatted views:** compare the source with the parsed result
+- **Saved snippets:** keep useful payloads for later
+- **Multiple inputs:** paste, drag a file, or use the macOS Share Sheet
+- **Keyboard-first workflow:** shortcuts for the actions used most often
+- **Local processing:** no account, upload, or network connection required
 
-## Technical Stack
+## The build
 
-Built with:
-- **Language**: Swift (93.9%)
-- **Platform**: macOS 14.0+ (Native AppKit)
-- **Tools**: Xcode, Swift Package Manager
-- **Additional**: PHP utilities (6.1%)
+JSON Assistant is built primarily with Swift and AppKit for macOS 14+. Parsing, search, formatting, and saved snippets all stay on the device. The warm sepia interface is tuned for long sessions without sacrificing syntax contrast.
 
-## Challenges & Solutions
+## Result
 
-Building a native macOS app that balances functionality with privacy required careful architecture. The app processes all JSON data locally, ensuring no data leaves the device. The warm, high-contrast sepia theme was designed to reduce eye strain during long coding sessions while maintaining excellent readability. Implementing JSON Path search across both the sidebar and formatted view required thoughtful UI/UX design to keep the interface clean and intuitive.
-
-## Results & Impact
-
-JSON Assistant is now available on the Mac App Store, providing developers with a privacy-first tool for working with JSON data. The app has been well-received for its simplicity, speed, and beautiful interface. The warm sepia theme has been particularly appreciated by developers who spend long hours working with JSON data.
-
-## What I Learned
-
-This project reinforced the importance of building focused, single-purpose tools that solve specific problems well. It also taught me the value of prioritizing user experience details like theme design and keyboard shortcuts. The privacy-first approach demonstrated that powerful tools don't need to compromise user data, and on-device processing can actually improve performance.
+The app is available on the Mac App Store as a focused alternative to general-purpose editors and online JSON formatters. It does one job: make an unfamiliar payload understandable quickly, while keeping it private.
