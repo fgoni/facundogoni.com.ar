@@ -45,6 +45,15 @@ const isActive = (href: string) => {
   <meta name="description" content={description}>
   <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow'}>
   <meta name="theme-color" content="#F5F1E8">
+  <script is:inline>
+    (() => {
+      const savedTheme = localStorage.getItem('theme');
+      const theme = savedTheme === 'light' || savedTheme === 'dark'
+        ? savedTheme
+        : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
   <title>{title}</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="/favicon.ico" sizes="32x32">
@@ -88,11 +97,22 @@ const isActive = (href: string) => {
         <span class="masthead-name">Facundo Goñi</span>
         <span class="masthead-meta">Web &amp; mobile developer · Buenos Aires</span>
       </div>
-      <nav class="masthead-nav">
-        {navItems.map((item) => (
-          <a href={item.href} class={`nav-link ${isActive(item.href) ? 'active' : ''}`}>{item.label}</a>
-        ))}
-      </nav>
+      <div class="masthead-actions">
+        <nav class="masthead-nav" aria-label="Main navigation">
+          {navItems.map((item) => (
+            <a href={item.href} class={`nav-link ${isActive(item.href) ? 'active' : ''}`}>{item.label}</a>
+          ))}
+        </nav>
+        <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
+          <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="3.5"></circle>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"></path>
+          </svg>
+          <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20.5 15.2A8.5 8.5 0 0 1 8.8 3.5a8.5 8.5 0 1 0 11.7 11.7Z"></path>
+          </svg>
+        </button>
+      </div>
     </header>
 
     <main>
@@ -105,6 +125,27 @@ const isActive = (href: string) => {
     </footer>
   </div>
 
+  <script>
+    const toggle = document.querySelector<HTMLButtonElement>('.theme-toggle');
+    const themeColor = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+
+    const updateThemeControl = (theme: 'light' | 'dark') => {
+      const isDark = theme === 'dark';
+      document.documentElement.dataset.theme = theme;
+      toggle?.setAttribute('aria-pressed', String(isDark));
+      toggle?.setAttribute('aria-label', `Switch to ${isDark ? 'light' : 'dark'} mode`);
+      themeColor?.setAttribute('content', isDark ? '#171613' : '#F5F1E8');
+    };
+
+    updateThemeControl(document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light');
+
+    toggle?.addEventListener('click', () => {
+      const theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('theme', theme);
+      updateThemeControl(theme);
+    });
+  </script>
+
   <style is:global>
     :root {
       --bg: #F5F1E8;
@@ -113,8 +154,20 @@ const isActive = (href: string) => {
       --rule: #1A1814;
       --accent: #1A1814;
       --accent-soft: rgba(26, 24, 20, 0.08);
+      --image-outline: rgba(0, 0, 0, 0.1);
       --serif: "Fraunces", "Source Serif 4", Georgia, serif;
       --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #171613;
+      --ink: #F1EDE4;
+      --muted: #AAA297;
+      --rule: #716B62;
+      --accent: #FFFFFF;
+      --accent-soft: rgba(241, 237, 228, 0.1);
+      --image-outline: rgba(255, 255, 255, 0.16);
     }
 
     * { box-sizing: border-box; }
@@ -126,6 +179,10 @@ const isActive = (href: string) => {
       color: var(--ink);
       -webkit-font-smoothing: antialiased;
     }
+
+    html { color-scheme: light; }
+
+    body { transition: background-color 180ms ease, color 180ms ease; }
 
     body {
       font-family: var(--serif);
@@ -177,6 +234,45 @@ const isActive = (href: string) => {
       display: flex;
       gap: 28px;
     }
+
+    .masthead-actions {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .theme-toggle {
+      width: 32px;
+      height: 32px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--rule);
+      border-radius: 50%;
+      padding: 0;
+      background: transparent;
+      color: var(--ink);
+      cursor: pointer;
+      transition: background-color 160ms, color 160ms, transform 160ms;
+    }
+
+    .theme-toggle:hover { background: var(--accent-soft); }
+    .theme-toggle:active { transform: scale(0.92); }
+    .theme-toggle:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+    .theme-icon {
+      width: 15px;
+      height: 15px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .theme-icon-moon { display: none; }
+    :root[data-theme="dark"] .theme-icon-sun { display: none; }
+    :root[data-theme="dark"] .theme-icon-moon { display: block; }
 
     .nav-link {
       font-family: var(--sans);
@@ -247,7 +343,7 @@ const isActive = (href: string) => {
       max-width: 100%;
       height: auto;
       display: block;
-      outline: 1px solid rgba(0, 0, 0, 0.1);
+      outline: 1px solid var(--image-outline);
       outline-offset: -1px;
     }
 
@@ -374,9 +470,13 @@ const isActive = (href: string) => {
         border-bottom: none;
       }
       .masthead-nav {
-        width: 100%;
         gap: 12px 18px;
         flex-wrap: wrap;
+      }
+      .masthead-actions {
+        width: 100%;
+        justify-content: space-between;
+        gap: 16px;
       }
       .nav-link {
         font-size: 11px;
