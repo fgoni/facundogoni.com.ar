@@ -249,9 +249,11 @@ const jsonLd = {
     }
 
     .service-links { grid-template-columns: 1fr; gap: 20px; }
+    .service-links a { border-bottom-color: var(--rule-soft); }
+    .service-links a:last-child { border-bottom: none; padding-bottom: 0; }
 
     .now {
-      margin-top: 64px;
+      margin-top: 48px;
       grid-template-columns: 1fr;
       gap: 24px;
     }
