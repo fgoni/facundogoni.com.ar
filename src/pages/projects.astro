@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import Icon from '../components/Icon.astro';
 import Layout from '../layouts/Layout.astro';
 
 const collection = await getCollection('projects');
@@ -93,7 +94,7 @@ const projects = order
             {p.tags.map((t) => <span class="tag">{t}</span>)}
           </div>
         </div>
-        <div class="project-arrow" aria-hidden="true">→</div>
+        <Icon name="arrow-right" class="project-arrow" />
       </a>
     ))}
     <div class="projects-end" aria-hidden="true"></div>
@@ -200,17 +201,16 @@ const projects = order
   }
 
   .project-arrow {
-    font-family: var(--serif);
-    font-size: 18px;
+    justify-self: end;
     color: var(--muted);
     opacity: 0.5;
-    text-align: right;
-    transition: color 220ms, opacity 220ms;
+    transition: color 220ms, opacity 220ms, transform 220ms;
   }
 
   .project:hover .project-arrow {
     color: var(--accent);
     opacity: 1;
+    transform: translateX(4px);
   }
 
   @media (max-width: 880px) {

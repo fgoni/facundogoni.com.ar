@@ -1,5 +1,6 @@
 ---
 import Layout from './Layout.astro';
+import Icon from '../components/Icon.astro';
 
 interface Props {
   title: string;
@@ -55,11 +56,11 @@ const jsonLd = {
         <div class="eyebrow">Have a project in mind?</div>
         <p>Tell me what you're building, where it stands, and what you need.</p>
       </div>
-      <a href="/contact">Let's talk →</a>
+      <a href="/contact">Let's talk <Icon name="arrow-right" size={16} class="cta-arrow" /></a>
     </aside>
   </article>
 
-  <a href="/services" class="back-link">← Back to services</a>
+  <a href="/services" class="back-link"><Icon name="arrow-left" size={16} class="back-arrow" />Back to services</a>
 </Layout>
 
 <style>
@@ -115,7 +116,15 @@ const jsonLd = {
     text-decoration: none;
   }
 
-  .service-cta a { border-bottom: 1px solid var(--ink); }
+  .service-cta a { border-bottom: 1px solid var(--ink); gap: 10px; }
+
+  .back-link { gap: 8px; }
+
+  .cta-arrow,
+  .back-arrow { transition: transform 180ms; }
+
+  .service-cta a:hover .cta-arrow { transform: translateX(3px); }
+  .back-link:hover .back-arrow { transform: translateX(-3px); }
   .service-cta a:active, .back-link:active { transform: scale(0.96); }
 
   .back-link {

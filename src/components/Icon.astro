@@ -1,0 +1,50 @@
+---
+// Minimal inline icon set drawn with Lucide geometry (ISC licensed, lucide.dev).
+// Kept local and inlined on purpose: no runtime JS, no extra dependency, and the
+// icons inherit currentColor + the site's stroke weight instead of relying on
+// system glyphs that render differently on every platform.
+type IconName = 'arrow-right' | 'arrow-left' | 'arrow-up-right';
+
+interface Props {
+  name: IconName;
+  size?: number;
+  strokeWidth?: number;
+  class?: string;
+  [key: string]: unknown;
+}
+
+// `rest` carries the parent's `data-astro-cid-*` attribute, so pages can style
+// the icon they render with their own scoped styles.
+const { name, size = 18, strokeWidth = 1.5, class: className, ...rest } = Astro.props;
+
+const icons: Record<IconName, string[]> = {
+  'arrow-right': ['M5 12h14', 'm12 5 7 7-7 7'],
+  'arrow-left': ['M19 12H5', 'm12 19-7-7 7-7'],
+  'arrow-up-right': ['M7 17 17 7', 'M7 7h10v10'],
+};
+---
+
+<svg
+  {...rest}
+  class:list={['icon', className]}
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width={strokeWidth}
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  focusable="false"
+>
+  {icons[name].map((d) => <path d={d} />)}
+</svg>
+
+<style>
+  .icon {
+    display: inline-block;
+    flex: none;
+    vertical-align: -0.18em;
+  }
+</style>

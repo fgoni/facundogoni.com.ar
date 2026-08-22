@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
 
 const description = 'Web development, native iOS and macOS apps, and rapid product prototyping by Facundo Goñi.';
 const services = [
@@ -49,7 +50,7 @@ const jsonLd = {
           <p>{service.description}</p>
           <span class="service-meta">{service.meta}</span>
         </div>
-        <span class="service-arrow" aria-hidden="true">→</span>
+        <Icon name="arrow-right" size={20} class="service-arrow" />
       </a>
     ))}
   </div>
@@ -118,7 +119,14 @@ const jsonLd = {
     line-height: 1.6;
   }
 
-  .service-arrow { text-align: right; font-size: 20px; }
+  .service-arrow {
+    justify-self: end;
+    margin-top: 6px;
+    color: var(--muted);
+    transition: transform 180ms, color 180ms;
+  }
+
+  .service:hover .service-arrow { transform: translateX(4px); color: var(--ink); }
 
   @media (max-width: 680px) {
     .page-title { font-size: 46px; }
