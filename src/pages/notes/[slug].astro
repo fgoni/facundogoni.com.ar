@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import Icon from '../../components/Icon.astro';
 import Layout from '../../layouts/Layout.astro';
 
 export async function getStaticPaths() {
@@ -100,12 +101,12 @@ const jsonLd = {
     {relatedLinks.length > 0 && (
       <aside class="related">
         <div class="related-label">Keep reading</div>
-        {relatedLinks.map((link) => <a href={link.href}>{link.title} <span>→</span></a>)}
+        {relatedLinks.map((link) => <a href={link.href}>{link.title} <Icon name="arrow-right" size={17} class="related-arrow" /></a>)}
       </aside>
     )}
   </article>
 
-  <a href="/notes" class="back-link">← Back to notes</a>
+  <a href="/notes" class="back-link"><Icon name="arrow-left" size={16} class="back-arrow" />Back to notes</a>
 </Layout>
 
 <style>
@@ -118,7 +119,9 @@ const jsonLd = {
   }
 
   .back-link {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     margin-top: 64px;
     font-family: var(--sans);
     font-size: 12px;
@@ -156,5 +159,11 @@ const jsonLd = {
   }
 
   .related a:hover { opacity: 0.65; }
+
+  .related-arrow { color: var(--muted); transition: transform 180ms; }
+  .related a:hover .related-arrow { transform: translateX(3px); }
+
   .back-link:hover { opacity: 1; }
+  .back-arrow { transition: transform 180ms; }
+  .back-link:hover .back-arrow { transform: translateX(-3px); }
 </style>

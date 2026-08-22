@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import Icon from '../../components/Icon.astro';
 import Layout from '../../layouts/Layout.astro';
 
 export async function getStaticPaths() {
@@ -97,17 +98,17 @@ const jsonLd = {
     <div class="links">
       {project.data.appStoreUrl && (
         <a href={project.data.appStoreUrl} target="_blank" rel="noopener noreferrer">
-          View on App Store ↗
+          <span>View on App Store</span><Icon name="arrow-up-right" size={15} class="ext-arrow" />
         </a>
       )}
       {project.data.demoUrl && (
         <a href={project.data.demoUrl} target="_blank" rel="noopener noreferrer">
-          View live site ↗
+          <span>View live site</span><Icon name="arrow-up-right" size={15} class="ext-arrow" />
         </a>
       )}
       {project.data.githubUrl && (
         <a href={project.data.githubUrl} target="_blank" rel="noopener noreferrer">
-          View on GitHub ↗
+          <span>View on GitHub</span><Icon name="arrow-up-right" size={15} class="ext-arrow" />
         </a>
       )}
     </div>
@@ -115,12 +116,12 @@ const jsonLd = {
     {relatedLinks.length > 0 && (
       <aside class="related">
         <div class="related-label">Related</div>
-        {relatedLinks.map((link) => <a href={link.href}>{link.title} <span>→</span></a>)}
+        {relatedLinks.map((link) => <a href={link.href}>{link.title} <Icon name="arrow-right" size={17} class="related-arrow" /></a>)}
       </aside>
     )}
   </article>
 
-  <a href="/projects" class="back-link">← Back to work</a>
+  <a href="/projects" class="back-link"><Icon name="arrow-left" size={16} class="back-arrow" />Back to work</a>
 </Layout>
 
 <style>
@@ -159,14 +160,23 @@ const jsonLd = {
   }
 
   .links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     font-family: var(--serif);
     font-size: 17px;
     color: var(--ink);
+    text-decoration: none;
+  }
+
+  .links a span {
     text-decoration: underline;
     text-underline-offset: 4px;
   }
 
   .links a:hover { opacity: 0.7; }
+
+  .ext-arrow { color: var(--muted); }
 
   .related {
     margin-top: 48px;
@@ -195,8 +205,13 @@ const jsonLd = {
 
   .related a:hover { opacity: 0.65; }
 
+  .related-arrow { color: var(--muted); transition: transform 180ms; }
+  .related a:hover .related-arrow { transform: translateX(3px); }
+
   .back-link {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     margin-top: 64px;
     font-family: var(--sans);
     font-size: 12px;
@@ -209,4 +224,7 @@ const jsonLd = {
   }
 
   .back-link:hover { opacity: 1; }
+
+  .back-arrow { transition: transform 180ms; }
+  .back-link:hover .back-arrow { transform: translateX(-3px); }
 </style>

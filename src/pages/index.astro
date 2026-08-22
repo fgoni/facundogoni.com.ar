@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
 
 const description = 'Independent web and mobile developer in Buenos Aires with 20+ years of experience shipping high-quality products from idea to production.';
 const jsonLd = {
@@ -65,9 +66,9 @@ const jsonLd = {
   <section class="services-preview">
     <div class="eyebrow">Services</div>
     <div class="service-links">
-      <a href="/services/web-development">Web development <span>→</span></a>
-      <a href="/services/ios-macos-development">iOS &amp; macOS apps <span>→</span></a>
-      <a href="/services/rapid-prototyping">Rapid prototyping <span>→</span></a>
+      <a href="/services/web-development">Web development <Icon name="arrow-right" class="link-arrow" /></a>
+      <a href="/services/ios-macos-development">iOS &amp; macOS apps <Icon name="arrow-right" class="link-arrow" /></a>
+      <a href="/services/rapid-prototyping">Rapid prototyping <Icon name="arrow-right" class="link-arrow" /></a>
     </div>
   </section>
 
@@ -190,7 +191,14 @@ const jsonLd = {
     transition: opacity 180ms;
   }
 
+  .service-links .link-arrow {
+    margin-top: 4px;
+    color: var(--muted);
+    transition: transform 180ms, color 180ms;
+  }
+
   .service-links a:hover { opacity: 0.65; }
+  .service-links a:hover .link-arrow { transform: translateX(3px); color: var(--ink); }
   .service-links a:active { transform: scale(0.96); }
 
   .now {
