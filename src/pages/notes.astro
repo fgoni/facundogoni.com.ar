@@ -53,7 +53,6 @@ const description = 'Notes by Facundo Goñi on developer tools, AI-assisted work
           </div>
         </a>
       ))}
-      <div class="list-end" aria-hidden="true"></div>
     </div>
   </div>
 </Layout>
@@ -99,18 +98,17 @@ const description = 'Notes by Facundo Goñi on developer tools, AI-assisted work
     grid-template-columns: 140px 1fr;
     gap: 32px;
     padding: 32px 0;
-    border-top: 1px solid var(--rule);
     text-decoration: none;
     color: inherit;
     transition: opacity 200ms;
   }
 
-  .post:hover {
-    opacity: 0.7;
+  .post + .post {
+    border-top: 1px solid var(--rule);
   }
 
-  .list-end {
-    border-top: 1px solid var(--rule);
+  .post:hover {
+    opacity: 0.7;
   }
 
   .post-meta {
@@ -155,6 +153,5 @@ const description = 'Notes by Facundo Goñi on developer tools, AI-assisted work
       gap: 8px;
     }
     .post-title { font-size: 22px; }
-    .list-end { display: none; }
   }
 </style>

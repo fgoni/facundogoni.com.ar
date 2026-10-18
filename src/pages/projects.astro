@@ -97,7 +97,6 @@ const projects = order
         <Icon name="arrow-right" class="project-arrow" />
       </a>
     ))}
-    <div class="projects-end" aria-hidden="true"></div>
   </div>
 </Layout>
 
@@ -121,11 +120,14 @@ const projects = order
     grid-template-columns: 60px 1.2fr 1.4fr 220px 40px;
     gap: 28px;
     padding: 32px 0;
-    border-top: 1px solid var(--rule);
     align-items: baseline;
     text-decoration: none;
     color: inherit;
     transition: opacity 220ms;
+  }
+
+  .project + .project {
+    border-top: 1px solid var(--rule);
   }
 
   .projects:hover .project {
@@ -134,10 +136,6 @@ const projects = order
 
   .projects:hover .project:hover {
     opacity: 1;
-  }
-
-  .projects-end {
-    border-top: 1px solid var(--rule);
   }
 
   .project-num {
@@ -230,8 +228,6 @@ const projects = order
     .project-name { font-size: 28px; }
 
     .project-arrow { display: none; }
-
-    .projects-end { display: none; }
 
     .projects:hover .project { opacity: 1; }
   }
