@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Icon from '../../components/Icon.astro';
 import Layout from '../../layouts/Layout.astro';
+import { ogImagePath } from '../../og/pages';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -14,7 +15,7 @@ export async function getStaticPaths() {
 const { project } = Astro.props;
 const { Content } = await project.render();
 const canonicalURL = new URL(Astro.url.pathname, Astro.site).href;
-const socialImage = `/og/projects/${project.slug}.png`;
+const socialImage = ogImagePath('projects', project.slug);
 const relatedURLs = [project.data.appStoreUrl, project.data.demoUrl, project.data.githubUrl].filter(Boolean);
 const relatedBySlug: Record<string, { title: string; href: string }[]> = {
   'certification-prep-pro': [

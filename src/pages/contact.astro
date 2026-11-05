@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { ogImagePath } from '../og/pages';
 
 const description = 'Contact Facundo Goñi about freelance web and mobile development, product consulting, and rapid prototyping projects.';
 
@@ -10,7 +11,7 @@ const elsewhere = [
 ];
 ---
 
-<Layout title="Contact — Facundo Goñi" description={description}>
+<Layout title="Contact — Facundo Goñi" description={description} image={ogImagePath('pages', 'contact')}>
   <div class="contact">
     <div class="eyebrow">Get in touch</div>
     <h1 class="page-title">

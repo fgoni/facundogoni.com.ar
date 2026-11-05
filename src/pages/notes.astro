@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+import { ogImagePath } from '../og/pages';
 
 const blogPosts = await getCollection('blog');
 
@@ -28,7 +29,7 @@ const sortedPosts = blogPosts
 const description = 'Notes by Facundo Goñi on developer tools, AI-assisted workflows, product development, and the details that help software ship.';
 ---
 
-<Layout title="Notes — Facundo Goñi" description={description}>
+<Layout title="Notes — Facundo Goñi" description={description} image={ogImagePath('pages', 'notes')}>
   <div class="notes">
     <aside class="intro">
       <div class="eyebrow">Notes</div>
