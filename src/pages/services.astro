@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { ogImagePath } from '../og/pages';
 import Icon from '../components/Icon.astro';
 
 const description = 'Web development, native iOS and macOS apps, and rapid product prototyping by Facundo Goñi.';
@@ -36,7 +37,7 @@ const jsonLd = {
 };
 ---
 
-<Layout title="Services — Facundo Goñi" description={description} jsonLd={jsonLd}>
+<Layout title="Services — Facundo Goñi" description={description} image={ogImagePath('pages', 'services')} jsonLd={jsonLd}>
   <div class="eyebrow">How I can help</div>
   <h1 class="page-title">From rough idea<br/>to <em class="em">shipped product.</em></h1>
   <p class="intro">I work with founders and product teams that need an experienced developer who can move quickly without leaving a mess behind.</p>

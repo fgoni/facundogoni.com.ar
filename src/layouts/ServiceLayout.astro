@@ -1,5 +1,6 @@
 ---
 import Layout from './Layout.astro';
+import { ogImagePath } from '../og/pages';
 import Icon from '../components/Icon.astro';
 
 interface Props {
@@ -39,7 +40,7 @@ const jsonLd = {
 };
 ---
 
-<Layout title={`${title} — Facundo Goñi`} description={description} jsonLd={jsonLd}>
+<Layout title={`${title} — Facundo Goñi`} description={description} image={ogImagePath('services', slug)} jsonLd={jsonLd}>
   <article class="service-page">
     <header>
       <div class="eyebrow">Services</div>

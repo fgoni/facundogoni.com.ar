@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Icon from '../components/Icon.astro';
 import Layout from '../layouts/Layout.astro';
+import { ogImagePath } from '../og/pages';
 
 const collection = await getCollection('projects');
 
@@ -76,7 +77,7 @@ const projects = order
   .filter((p): p is NonNullable<typeof p> => p !== null);
 ---
 
-<Layout title="Work — Facundo Goñi" description={description}>
+<Layout title="Work — Facundo Goñi" description={description} image={ogImagePath('pages', 'work')}>
   <div class="eyebrow">Selected work</div>
   <h1 class="page-title">
     Things I've<br/><em class="em">shipped.</em>
