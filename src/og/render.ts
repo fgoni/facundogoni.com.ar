@@ -8,7 +8,7 @@ export type { OgCard, VariantName };
 
 export const OG_WIDTH = 1200;
 export const OG_HEIGHT = 630;
-export const DEFAULT_VARIANT: VariantName = 'masthead';
+export const DEFAULT_VARIANT: VariantName = 'ink';
 
 const fontDir = path.resolve(process.cwd(), 'src/og/fonts');
 
